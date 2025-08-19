@@ -34,6 +34,11 @@ function useUrlParams<T extends string, O extends string>(
         
         setSearchParams([...params])
       }
+      
+      if(!newValue) {
+        const params = new URLSearchParams(searchParams.toString())
+        params.delete(config.keyName)
+      }
     },
     [config.keyName, config.options, searchParams, setSearchParams],
   )
