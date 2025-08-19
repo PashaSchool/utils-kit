@@ -20,8 +20,8 @@ type QueryParamHookResult<T extends string, O extends string> = {
 }
 
 function useUrlParams<T extends string, O extends string>(
-  config: QueryParamConfig<T, O>,
-): QueryParamHookResult<T, O> {
+  config: QueryParamConfig<T, O | ''>,
+): QueryParamHookResult<T, O | ''> {
   const [searchParams, setSearchParams] = useSearchParams()
   
   const currentValue = searchParams.get(config.keyName) as O | null
