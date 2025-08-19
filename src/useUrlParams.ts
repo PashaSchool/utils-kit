@@ -1,13 +1,7 @@
 import {useSearchParams} from 'react-router-dom'
 import {useCallback, useMemo} from 'react'
 import {upperFirst} from './utils'
-
-type Capitalize<S extends string> = S extends `${infer F}${infer R}` ? `${Uppercase<F>}${R}` : S
-
-type QueryParamConfig<T extends string, O extends string> = {
-  keyName: T
-  options: O[]
-}
+import type {Capitalize, QueryParamConfig} from './types.utils'
 
 type QueryParamHookResult<T extends string, O extends string> = {
   [K in O as `is${Capitalize<T>}${Capitalize<K>}`]: boolean
@@ -35,7 +29,7 @@ function useUrlParams<T extends string, O extends string>(
         setSearchParams([...params])
       }
       
-      if(!newValue) {
+      if (!newValue) {
         const params = new URLSearchParams(searchParams.toString())
         params.delete(config.keyName)
       }
