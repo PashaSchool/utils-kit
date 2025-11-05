@@ -1,0 +1,42 @@
+name: Publish to npm (Trusted Publishing)
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Derive npm tag from package.json version
+        id: tag
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [[ "$PKG_VERSION" == *"-beta."* ]]; then
+            echo "NPM_TAG=beta" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          fi
+          echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Publish
+        run: npm publish --provenance --access public --tag "$NPM_TAG"

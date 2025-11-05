@@ -6,7 +6,7 @@
 
 A lightweight React hook for managing **URL query parameters** with full TypeScript support and auto-generated helper methods.
 
-Built for [`react-router-dom`](https://reactrouter.com/) (v6+) with **type-safe keys**, **option validation**, and **handy helper flags** like `isViewTable` or `isViewGrid`.
+Built for [`react-router-dom`](https://reactrouter.com/) (v6+) with **type-safe keys**, **option validation**, and **handy helper flags**.
 
 ---
 
