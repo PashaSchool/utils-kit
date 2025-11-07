@@ -12,31 +12,32 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-22.04
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
-      - name: Install deps
+      - name: Install deps (root)
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Build package
+        run: npm run -w packages/react-url-query-params build
 
-      - name: Derive npm tag from package.json version
+      - name: Derive npm tag from package.json (package workspace)
         id: tag
         run: |
-          PKG_VERSION=$(node -p "require('./package.json').version")
-          if [[ "$PKG_VERSION" == *"-beta."* ]]; then
+          PKG_VERSION=$(node -p "require('./packages/react-url-query-params/package.json').version")
+          if [[ "$PKG_VERSION" == *"-beta."* || "$PKG_VERSION" == *"-rc."* || "$PKG_VERSION" == *"-next."* ]]; then
             echo "NPM_TAG=beta" >> $GITHUB_ENV
           else
             echo "NPM_TAG=latest" >> $GITHUB_ENV
           fi
           echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Publish
-        run: npm publish --provenance --access public --tag "$NPM_TAG"
+      - name: Publish (Trusted Publishing)
+        run: npm publish -w packages/react-url-query-params --provenance --access public --tag "$NPM_TAG"
