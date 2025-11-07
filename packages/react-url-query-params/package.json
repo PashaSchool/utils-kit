@@ -1,6 +1,6 @@
 {
   "name": "react-url-query-params",
-  "version": "0.1.2-beta.11",
+  "version": "0.1.2-beta.12",
   "description": "React hooks for managing and updating URL query parameters with batch updates and type safety.",
   "author": "Pavlo Kuzina",
   "license": "MIT",
@@ -36,12 +36,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PashaSchool/utils-kit.git"
+    "url": "git+https://github.com/PashaSchool/utils-kit.git",
+    "directory": "packages/react-url-query-params"
   },
   "bugs": {
-    "url": "https://github.com/PashaSchool/utils-kit.git/issues"
+    "url": "https://github.com/PashaSchool/utils-kit/tree/main/packages/react-url-query-params/issues"
   },
-  "homepage": "https://github.com/PashaSchool/utils-kit.git#readme",
+  "homepage": "https://github.com/PashaSchool/utils-kit/blob/main/packages/react-url-query-params/README.md",
   "keywords": [
     "react",
     "hooks",

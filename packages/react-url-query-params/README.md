@@ -23,16 +23,16 @@ Built for [`react-router-dom`](https://reactrouter.com/) (v6+) with **type-safe 
 ## 📦 Installation
 
 ```bash
-npm react-use-url-params
+npm react-url-query-params
 ```
 or
 ```bash
-yarn add react-use-url-params
+yarn add react-url-query-params
 ```
 ## 🚀 Usage
 
 ```tsx
-import useUrlParams from 'react-use-url-params';
+import useUrlParams from 'react-url-query-params';
 
 export default function MyComponent() {
   const { view, setView, toggleView, isViewGrid, isViewTable } = useUrlParams({
