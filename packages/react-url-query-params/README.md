@@ -23,7 +23,7 @@ Built for [`react-router-dom`](https://reactrouter.com/) (v6+) with **type-safe 
 ## 📦 Installation
 
 ```bash
-npm react-url-query-params
+npm install react-url-query-params
 ```
 or
 ```bash
@@ -31,13 +31,15 @@ yarn add react-url-query-params
 ```
 ## 🚀 Usage
 
+![Demo of react-url-query-params](./docs/demo.gif)
+
 ```tsx
-import useUrlParams from 'react-url-query-params';
+import { useUrlParams } from 'react-url-query-params';
 
 export default function MyComponent() {
   const { view, setView, toggleView, isViewGrid, isViewTable } = useUrlParams({
     keyName: 'view',
-    options: ['grid', 'table'] as const,
+    options: ['grid', 'table'],
   });
 
   return (
@@ -45,7 +47,7 @@ export default function MyComponent() {
       <p>Current view: {view}</p>
       <button onClick={() => setView('grid')}>Grid</button>
       <button onClick={() => setView('table')}>Table</button>
-      <button onClick={toggleView}>Toggle</button>
+      <button onClick={() => toggleView()}>Toggle</button>
 
       {isViewGrid && <div>Grid mode enabled</div>}
       {isViewTable && <div>Table mode enabled</div>}
