@@ -31,7 +31,7 @@ jobs:
 
       - name: "Build library"
         working-directory: packages/react-url-query-params
-        run: npm build
+        run: npm run build
 
       - name: "Check version matches tag"
         working-directory: packages/react-url-query-params
@@ -47,10 +47,10 @@ jobs:
             exist 1
 
           fi
-        
+
       - name: "Publish to npm (Trusted Publishing)"
         working-directory: packages/react-url-query-params
         run: npm publish --access public
 
 
-        
+
