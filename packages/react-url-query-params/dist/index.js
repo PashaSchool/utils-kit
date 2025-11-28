@@ -38,6 +38,13 @@ function useUrlParams(config) {
     }
     setterFunction(nextOption);
   }, [config.options, currentValue, setterFunction]);
+  const clearParam = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.has(config.keyName)) {
+      params.delete(config.keyName);
+      setSearchParams([...params]);
+    }
+  }, [config.options, searchParams]);
   const capitalizedOptions = useMemo(() => {
     return config.options.reduce(
       (acc, option) => {
@@ -54,10 +61,46 @@ function useUrlParams(config) {
     [config.keyName]: currentValue,
     [`set${upperFirst(config.keyName)}`]: setterFunction,
     [`toggle${upperFirst(config.keyName)}`]: onToggle,
+    [`clear${upperFirst(config.keyName)}`]: clearParam,
     ...capitalizedOptions
   };
 }
 var useUrlParams_default = useUrlParams;
+
+// src/useBatchUrlParams.ts
+import { useSearchParams as useSearchParams2 } from "react-router-dom";
+import { useCallback as useCallback2, useMemo as useMemo2 } from "react";
+function useBatchUrlParams(config) {
+  const [searchParams, setSearchParams] = useSearchParams2();
+  const setterFunction = useCallback2((values) => {
+    const params = new URLSearchParams(searchParams);
+    Object.entries(values).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+    setSearchParams(params.toString(), { replace: false });
+  }, [searchParams]);
+  const capitalizedOptions = useMemo2(() => {
+    const params = new URLSearchParams(searchParams);
+    const result = {};
+    Object.entries(config).forEach(([key, options]) => {
+      const capitalizedKeyName = upperFirst(key);
+      const currentValue = params.get(key);
+      options.forEach((option) => {
+        const capitalizedOption = upperFirst(option);
+        Object.assign(result, {
+          [`is${capitalizedKeyName}${capitalizedOption}`]: currentValue === option
+        });
+      });
+    });
+    return result;
+  }, [searchParams, config]);
+  return {
+    set: setterFunction,
+    ...capitalizedOptions
+  };
+}
+var useBatchUrlParams_default = useBatchUrlParams;
 export {
+  useBatchUrlParams_default as useBatchUrlParams,
   useUrlParams_default as useUrlParams
 };

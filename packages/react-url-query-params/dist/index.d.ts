@@ -12,7 +12,22 @@ type QueryParamHookResult<T extends string, O extends string> = {
     [K in T]: O | null;
 } & {
     [K in `toggle${Capitalize<T>}`]: () => void;
+} & {
+    [K in `clear${Capitalize<T>}`]: () => void;
 };
 declare function useUrlParams<T extends string, O extends string>(config: QueryParamConfig<T, O>): QueryParamHookResult<T, O>;
 
-export { useUrlParams };
+type BatchUrlReturnType<T extends Record<string, readonly string[]>> = {
+    set: (values: Partial<{
+        [K in keyof T]: T[K][number];
+    }>) => void;
+} & {
+    [K in {
+        [Key in keyof T]: {
+            [Val in T[Key][number]]: `is${Capitalize<Key & string>}${Capitalize<Val & string>}`;
+        }[T[Key][number]];
+    }[keyof T]]: boolean;
+};
+declare function useBatchUrlParams<const T extends Record<string, readonly string[]>>(config: T): BatchUrlReturnType<T>;
+
+export { useBatchUrlParams, useUrlParams };
