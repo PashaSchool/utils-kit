@@ -69,8 +69,8 @@ import { useBatchUrlParams } from 'react-url-query-params';
 
 export default function MyComponent() {
   const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBatchUrlParams({
-    view: ['grid', 'table'] as const,
-    modal: ['opened', 'closed'] as const,
+    view: ['grid', 'table'],
+    modal: ['opened', 'closed'],
   });
 
   return (
@@ -117,7 +117,7 @@ Manage a single query parameter with type-safe helpers.
 ```tsx
 const { view, setView, toggleView, isViewGrid, isViewTable } = useUrlParams({
   keyName: 'view',
-  options: ['grid', 'table'] as const,
+  options: ['grid', 'table'],
 });
 ```
 
@@ -157,13 +157,13 @@ A record object where:
 ```tsx
 // Basic usage
 const { set, isViewGrid, isViewTable } = useBatchUrlParams({
-  view: ['grid', 'table'] as const,
+  view: ['grid', 'table'],
 });
 
 // Multiple parameters
 const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBatchUrlParams({
-  view: ['grid', 'table'] as const,
-  modal: ['opened', 'closed'] as const,
+  view: ['grid', 'table'],
+  modal: ['opened', 'closed'],
 });
 
 // Update single parameter
@@ -185,8 +185,8 @@ import { useBatchUrlParams } from 'react-url-query-params';
 
 function FilterableTable() {
   const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive } = useBatchUrlParams({
-    sort: ['asc', 'desc'] as const,
-    filter: ['active', 'inactive'] as const,
+    sort: ['asc', 'desc'],
+    filter: ['active', 'inactive'],
   });
 
   return (
