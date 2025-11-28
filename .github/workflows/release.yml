@@ -37,7 +37,7 @@ jobs:
         working-directory: packages/react-url-query-params
         run: |
           TAG_VERSION=${GITHUB_REF#refs/tags/v}
-          PKG_VERSION=${node -p "require('package.json').version"}
+          PKG_VERSION=$(node -p "require('./package.json').version")
 
           echo "Tag version $TAG_VERSION"
           echo "Package version $PKG_VERSION"
