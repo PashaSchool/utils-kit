@@ -1,48 +1,65 @@
-import {useSearchParams} from 'react-router-dom'
-import {useCallback} from 'react'
-import type {QueryParamConfig} from "./types.utils";
+import {useSearchParams} from "react-router-dom";
+import type {Capitalize} from './types.utils'
+import {useCallback, useMemo} from "react";
+import {upperFirst} from "./utils";
 
-type BatchUpdateFunction = (params: URLSearchParams) => void
 
-type ParamsRecord = Record<string, string>
+type BatchUrlReturnType<
+  T extends Record<string, readonly string[]>
+> = {
+  set: (values: Partial<{ [K in keyof T]: T[K][number] }>) => void
+} & {
+  [K in {
+    [Key in keyof T]: {
+      [Val in T[Key][number]]:
+      `is${Capitalize<Key & string>}${Capitalize<Val & string>}`
+    }[T[Key][number]]
+  }[keyof T]]: boolean
+}
 
-function useBulkUrlParams<T extends string, O extends string>(config: QueryParamConfig<T, O | ''>) {
+function useBulkUrlParams<
+  const T extends Record<string, readonly string[]>
+>(config: T): BatchUrlReturnType<T> {
   const [searchParams, setSearchParams] = useSearchParams()
   
-  const batchUpdate = useCallback((updateFn: BatchUpdateFunction) => {
-    const newParams = new URLSearchParams(searchParams)
-    updateFn(newParams)
-    setSearchParams(newParams)
-  }, [searchParams, setSearchParams])
+  type Config = {
+    [K in keyof T]: T[K][number]
+  }
   
-  const replaceSearchParamsWith = useCallback((newParams: ParamsRecord | URLSearchParams) => {
-    if (newParams instanceof URLSearchParams) {
-      setSearchParams(newParams, {replace: true})
-    } else {
-      const params = new URLSearchParams()
-      
-      Object.entries(newParams).forEach(([key, value]) => {
-        params.set(key, value)
-      })
-      
-      setSearchParams(params, {replace: true})
-    }
-  }, [setSearchParams])
-  
-  const initializeWithParams = useCallback((initialParams: ParamsRecord) => {
+  const setterFunction = useCallback((values: Partial<Config>) => {
+    const params = new URLSearchParams(searchParams);
     
-    Object.entries(initialParams).forEach(([key, value]) => {
-      if (!searchParams.has(key)) {
-        searchParams.set(key, value)
-      }
+    Object.entries(values).forEach(([key, value]) => {
+      params.set(key, value);
     });
     
-    setSearchParams(searchParams, {replace: true});
-  }, [setSearchParams]);
+    setSearchParams(params.toString(), {replace: false});
+  }, [searchParams])
   
-  return {batchUpdate, replaceSearchParamsWith, initializeWithParams}
+  const capitalizedOptions = useMemo(() => {
+    const params = new URLSearchParams(searchParams);
+    const result = {} as {[key: string] : boolean};
+    
+    Object.entries(config).forEach(([key, options]) => {
+      const capitalizedKeyName = upperFirst(key)
+      const currentValue = params.get(key)
+      
+      options.forEach(option => {
+        const capitalizedOption = upperFirst(option)
+        
+        Object.assign(result, {
+          [`is${capitalizedKeyName}${capitalizedOption}`]: currentValue ===  option
+        })
+      })
+    });
+    
+    return result
+  }, [searchParams, config])
+  
+  return {
+    set: setterFunction,
+    ...capitalizedOptions
+  } as BatchUrlReturnType<T>
 }
 
 export default useBulkUrlParams
-
-

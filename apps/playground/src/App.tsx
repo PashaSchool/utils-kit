@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {useUrlParams} from 'react-url-query-params'
+import {useUrlParams, useBatchUrlParams} from 'react-url-query-params'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -11,11 +11,19 @@ function App() {
     options: ['one', 'two'] as const
   })
   
+  const {set, isModalOpened, isModalClosed, isViewOne, isViewTwo} = useBatchUrlParams({
+    view: ['one', 'two'],
+    modal: ['opened', 'closed']
+  })
+ 
   return (
     <>
       <div>
         <button type="button" onClick={() => {
-          toggleHey()
+          set({
+            view: 'one',
+            modal: 'opened'
+          })
         }}>
           <img src={viteLogo} className="logo" alt="Vite logo"/>
         </button>
