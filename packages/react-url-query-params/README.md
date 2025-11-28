@@ -13,7 +13,7 @@ Built for [`react-router-dom`](https://reactrouter.com/) (v6+) with **type-safe 
 ## ✨ Features
 
 - 🔒 **Type-safe** query parameter keys and values
-- ⚡ **Auto-generated helpers**: `set<Key>`, `toggle<Key>`, `is<Key><Option>`
+- ⚡ **Auto-generated helpers**: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
 - 🔄 **Toggle mode** for 2-option parameters
 - ✅ Works seamlessly with `react-router-dom`’s `useSearchParams`
 - 🪶 Zero dependencies (except React & react-router-dom)
@@ -67,6 +67,7 @@ export default function MyComponent() {
 - `[keyName]` — current value (`string` or `null`)
 - `set<Key>` — function to set a value
 - `toggle<Key>` — toggle between 2 allowed values (only works if `options.length === 2`)
+- `clear<Key>` — function to clear parameter from url
 - `is<Key><Option>` — boolean helper for quick checks
 
       
