@@ -5,6 +5,22 @@ on:
     branches: [dev]
     
   workflow_dispatch:
+    inputs:
+      homedrive:
+        description: 'The home drive on the machine'
+      Loglevel:
+        description: 'Log level'
+        default: 'warning'
+        type: choice
+        options: [info, warning, debug]
+      tag: 
+        description: 'Apply tag after successul test run'
+        required: true
+        type: boolean
+      environment:
+        description: 'Environment to run tests agains'
+        type: environment
+        required: true
   
 jobs:
   MyFirstJob:
