@@ -11,6 +11,8 @@ type QueryParamHookResult<T extends string, O extends string> = {
   [K in T]: O | null
 } & {
   [K in `toggle${Capitalize<T>}`]: () => void
+} & {
+  [K in `clear${Capitalize<T>}`]: () => void
 }
 
 function useUrlParams<T extends string, O extends string>(
@@ -57,6 +59,17 @@ function useUrlParams<T extends string, O extends string>(
     setterFunction(nextOption)
   }, [config.options, currentValue, setterFunction])
   
+  const clearParam = useCallback(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (params.has(config.keyName)) {
+      params.delete(config.keyName)
+      
+      setSearchParams([...params])
+    }
+    
+  }, [config.options, searchParams])
+  
   const capitalizedOptions = useMemo(() => {
     return config.options.reduce(
       (acc, option) => {
@@ -75,6 +88,7 @@ function useUrlParams<T extends string, O extends string>(
     [config.keyName]: currentValue,
     [`set${upperFirst(config.keyName)}` as const]: setterFunction,
     [`toggle${upperFirst(config.keyName)}` as const]: onToggle,
+    [`clear${upperFirst(config.keyName)}` as const]: clearParam,
     ...capitalizedOptions,
   } as QueryParamHookResult<T, O>
 }
