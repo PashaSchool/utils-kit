@@ -125,16 +125,6 @@ const { view, setView, toggleView, isViewGrid, isViewTable } = useUrlParams({
 
 ### `useBatchUrlParams(config)`
 
-Manage multiple query parameters simultaneously with a single hook.
-
-**Interface:**
-
-```typescript
-function useBatchUrlParams<
-  const T extends Record<string, readonly string[]>
->(config: T): BatchUrlReturnType<T>
-```
-
 **Config:**
 
 A record object where:
