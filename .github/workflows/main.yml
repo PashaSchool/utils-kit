@@ -31,6 +31,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.5.2
 
+      - name: JobName
+        run: echo "Echo JOB: ${{ github.job }}"
+
       - name: List files in the reposetory
         run: |
           echo "The reposetory ${{github.reposetory}} contains the following files:" 
