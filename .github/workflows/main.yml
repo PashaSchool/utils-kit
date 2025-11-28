@@ -1,0 +1,21 @@
+name: MY Github Action
+
+on:
+  push:
+    branches: [dev]
+    
+  workflow_dispatch:
+  
+jobs:
+  MyFirstJob:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello world"
+
+      - name: Checkout
+        uses: actions/checkout@3.5.2
+
+      - name: List files in the reposetory
+        run: |
+          echo "The reposetory ${{github.reposetory}} contains the following files:" 
+          tree
