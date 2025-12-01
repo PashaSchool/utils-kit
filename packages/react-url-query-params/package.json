@@ -29,10 +29,11 @@
     "react-router-dom": "^6.4 || ^7"
   },
   "devDependencies": {
-    "typescript": "^5.0.0",
-    "tsup": "^8.0.0",
+    "@biomejs/biome": "2.3.8",
     "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react-dom": "^18",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
   },
   "repository": {
     "type": "git",
