@@ -3,3 +3,5 @@
 node_modules/
 
 *.sh
+
+/packages/react-url-query-params/dist
