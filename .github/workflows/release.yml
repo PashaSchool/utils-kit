@@ -34,7 +34,7 @@ jobs:
 
       - name: "Install dependencies"
         working-directory: packages/react-url-query-params
-        run: npm install
+        run: HUSKY=0 npm install
 
       - name: "Build library"
         working-directory: packages/react-url-query-params
