@@ -43,7 +43,7 @@ yarn add react-url-query-params
 import { useUrlParams } from 'react-url-query-params';
 
 export default function MyComponent() {
-  const { view, setView, toggleView, isViewGrid, isViewTable } = useUrlParams({
+  const { view, setView, toggleView, clearView, isViewGrid, isViewTable } = useUrlParams({
     keyName: 'view',
     options: ['grid', 'table'],
   });
@@ -54,6 +54,15 @@ export default function MyComponent() {
       <button onClick={() => setView('grid')}>Grid</button>
       <button onClick={() => setView('table')}>Table</button>
       <button onClick={() => toggleView()}>Toggle</button>
+      <button onClick={() => clearView()}>Clear</button>
+      
+      {/* Replace history entry instead of adding new one */}
+      <button onClick={() => setView('grid', { replace: true })}>
+        Grid (No History)
+      </button>
+      <button onClick={() => toggleView({ replace: true })}>
+        Toggle (No History)
+      </button>
 
       {isViewGrid && <div>Grid mode enabled</div>}
       {isViewTable && <div>Table mode enabled</div>}
@@ -109,16 +118,32 @@ Manage a single query parameter with type-safe helpers.
 **Returns:**
 - `[keyName]` — current value (`string` or `null`)
 - `set<Key>` — function to set a value
+  - **First parameter**: The value to set
+  - **Second parameter** (optional): `{ replace: boolean }` - Controls browser history behavior
+    - `replace: false` (default) - Adds a new entry to browser history
+    - `replace: true` - Replaces the current history entry
 - `toggle<Key>` — toggle between 2 allowed values (only works if `options.length === 2`)
+  - **Parameter** (optional): `{ replace: boolean }` - Controls browser history behavior
 - `clear<Key>` — function to clear parameter from url
+  - **Parameter** (optional): `{ replace: boolean }` - Controls browser history behavior
 - `is<Key><Option>` — boolean helper for quick checks
 
 **Example:**
 ```tsx
-const { view, setView, toggleView, isViewGrid, isViewTable } = useUrlParams({
+const { view, setView, toggleView, clearView, isViewGrid, isViewTable } = useUrlParams({
   keyName: 'view',
   options: ['grid', 'table'],
 });
+
+// Basic usage
+setView('grid');
+toggleView();
+clearView();
+
+// Control browser history
+setView('grid', { replace: true });
+toggleView({ replace: true });
+clearView({ replace: true });
 ```
 
 ---
@@ -137,7 +162,10 @@ A record object where:
 **Returns:**
 
 - **`set`** — function to update one or more parameters at once
-  - Accepts a partial object of key-value pairs
+  - **First parameter**: A partial object of key-value pairs
+  - **Second parameter** (optional): `{ replace: boolean }` - Controls browser history behavior
+    - `replace: false` (default) - Adds a new entry to browser history
+    - `replace: true` - Replaces the current history entry
   - Only updates the specified parameters, leaving others unchanged
 - **`is<Key><Option>`** — boolean flags for each key-option combination
   - Automatically generated based on your config
@@ -163,6 +191,9 @@ set({ view: 'grid' });
 
 // Update multiple parameters at once
 set({ view: 'table', modal: 'opened' });
+
+// Control browser history (replace current entry instead of adding new one)
+set({ view: 'grid' }, { replace: true });
 
 // Use boolean flags
 if (isViewGrid && isModalOpened) {
@@ -200,6 +231,11 @@ function FilterableTable() {
       <button onClick={() => set({ sort: 'desc', filter: 'active' })}>
         Reset Filters
       </button>
+      
+      {/* Replace history entry (no back button navigation) */}
+      <button onClick={() => set({ sort: 'asc' }, { replace: true })}>
+        Sort Asc (No History)
+      </button>
     </div>
   );
 }
@@ -207,7 +243,9 @@ function FilterableTable() {
 
 **Notes:**
 - Use `as const` for the options arrays to get the best TypeScript inference
-- The `set` function uses `replace: false`, so it adds to browser history
+- The `set` function accepts an optional second parameter `{ replace: boolean }` to control browser history:
+  - `replace: false` (default) - Adds a new entry to browser history (users can use back button)
+  - `replace: true` - Replaces the current history entry (prevents back button navigation to previous state)
 - Boolean flags are automatically generated and update reactively when URL changes
 - All parameter names and values are type-safe based on your config
 
