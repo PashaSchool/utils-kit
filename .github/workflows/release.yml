@@ -52,7 +52,7 @@ jobs:
           echo "Tag version $TAG_VERSION"
           echo "Package version $PKG_VERSION"
 
-          if ["$TAG_VERSION" != "$PCK_VERSION"]; then
+          if ["$TAG_VERSION" != "$PKG_VERSION"]; then
             echo "Version in package.json does not match to tag version"
             exist 1
 
