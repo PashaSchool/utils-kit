@@ -26,23 +26,9 @@ type ListenerCallbackProps = {
 }
 
 const useExportCSVMessaging = (cb: (props: ListenerCallbackProps) => void) => {
-  
   useEffect(() => {
-    listen()
+    cb({} as ListenerCallbackProps)
   }, []);
-  
-  return {
-    listen() {
-      
-      return {
-        isDone: false,
-        isProcessing: true,
-        isFailed: true,
-        errorMessage: '',
-        totalInPercent: 89,
-      }
-    }
-  }
 }
 
 const {handler} = useExportCSV({
