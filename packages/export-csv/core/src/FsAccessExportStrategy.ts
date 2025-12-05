@@ -1,5 +1,5 @@
 import {ExportParams, ExportStrategy} from "./types";
-import {WEB_WORKER_NAME} from "../../constnats";
+import {WEB_WORKER_NAME} from "./constnats";
 
 
 const workerUrl = new URL('./worker.js', '')
