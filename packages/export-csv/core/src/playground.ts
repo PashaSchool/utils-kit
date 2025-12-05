@@ -5,9 +5,7 @@ import {ExportParams} from "./types";
 const useExportCSV = (params: ExportParams) => {
   
   const handler = async () => {
-    const uuid = Math.random().toString(36).substr(2);
-    
-    const controller = ExportControlFabric.create(params);
+    const controller = ExportControlFabric.create();
     
     await controller.start(params)
   }
@@ -33,7 +31,7 @@ const useExportCSVMessaging = (cb: (props: ListenerCallbackProps) => void) => {
 
 const {handler} = useExportCSV({
   fileName: 'test',
-  getNextPage: async (offset) => ['1', '2']
+  getNextPage: async (offset) => ['1', '2'],
 })
 
 useExportCSVMessaging((props: {
