@@ -4,5 +4,5 @@ node_modules/
 
 *.sh
 
-/packages/**/dist
-/packages/*/dist
+/packages/**/dist/
+/packages/*/dist/
