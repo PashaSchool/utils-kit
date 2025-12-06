@@ -1,31 +1,40 @@
-console.log('empty worker')
-
-
-// getColumns: () => [
-//   { key: 'time', label: 'Time' },
-//   { key: 'src_name', label: 'Source name' },
-//   { key: 'src_process', label: 'Source process' },
-//   { key: 'policy_name', label: 'Policy name' },
-//   { key: 'port', label: 'Port' },
-//   { key: 'dst_name', label: 'Destination name' },
-//   { key: 'dst_process', label: 'Destination process' },
-// ],
-
 type FormatTypes = {
-  dataType: 'Date' | 'Timestamp' | 'Utc',
-  applyFormattingType: 'DD/MM/YYYY'
-}
+  dataType: "Date" | "Timestamp" | "Utc";
+  applyFormattingType: "DD/MM/YYYY";
+};
 
 type Column = {
-  key: string, header: string, format?: FormatTypes
-}
+  key: string;
+  header: string;
+  format?: FormatTypes;
+};
 
-type Message = {
-  type: string,
-  columns: Array<Column>
-}
+type WorkerMessage = {
+  id: string;
+  type: "process" | "format";
+  columns?: Array<Column>;
+  data?: any[];
+};
 
-self.onmessage((message: Message) => {
-  const {type, columns} = message;
-  
-})
+type WorkerResponse = {
+  id: string;
+  result?: any;
+  error?: Error;
+};
+
+self.onmessage = (event: MessageEvent<WorkerMessage>) => {
+  const { id, type, columns, data } = event.data;
+
+  try {
+    if (type === "process") {
+      // Process CSV data
+      const result = {};
+      self.postMessage({ id, result } as WorkerResponse);
+    }
+  } catch (error) {
+    self.postMessage({
+      id,
+      error: error instanceof Error ? error : new Error(String(error)),
+    } as WorkerResponse);
+  }
+};

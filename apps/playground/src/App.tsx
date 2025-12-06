@@ -1,29 +1,33 @@
-import {useState} from 'react'
-import {useUrlParams, useBatchUrlParams} from 'react-url-query-params'
+import { useRef, useState} from 'react'
+// import {useUrlParams, useBatchUrlParams} from 'react-url-query-params'
+import {ExportController, ExportControllerSingleton} from 'export-csv-core'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+function useExportCSV() {
+  const exportCallbackRef = useRef<ExportController>(ExportControllerSingleton.init())
+
+  return {
+    handler: exportCallbackRef.current!
+  }
+}
+
 function App() {
   const [count, setCount] = useState(0)
-  const { toggleHey } = useUrlParams({
-    keyName: 'hey',
-    options: ['one', 'two'] as const
-  })
   
-  const {set, isModalOpened, isModalClosed, isViewOne, isViewTwo} = useBatchUrlParams({
-    view: ['one', 'two'],
-    modal: ['opened', 'closed']
-  })
- 
+  const {handler} = useExportCSV()
+
   return (
     <>
       <div>
-        <button type="button" onClick={() => {
-          set({
-            view: 'one',
-            modal: 'opened'
+        <button type="button" onClick={async () => {
+          const response = handler.start({
+            fileName: "my_export",
+            getNextPage: () => Promise.resolve([{success: true}])
           })
+          
+          console.log("response::", {response})
         }}>
           <img src={viteLogo} className="logo" alt="Vite logo"/>
         </button>
