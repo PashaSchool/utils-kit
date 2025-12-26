@@ -45,5 +45,16 @@ jobs:
       working-directory: packages/react-url-query-params
       run: npm run test:run
 
+    - name: Run coverage (react-url-query-params)
+      working-directory: packages/react-url-query-params
+      run: npm run test:coverage
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        flags: react-url-query-params
+        files: packages/react-url-query-params/coverage/lcov.info
+        fail_ci_if_error: true
+
 
 
