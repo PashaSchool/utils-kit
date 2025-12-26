@@ -16,6 +16,8 @@ A collection of **lightweight**, **type-safe** React utilities and hooks for mod
 [![npm downloads](https://img.shields.io/npm/dw/react-url-query-params?logo=npm)](https://www.npmjs.com/package/react-url-query-params)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/react-url-query-params?color=green&logo=webpack)](https://bundlephobia.com/package/react-url-query-params)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![CI](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml/badge.svg)](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml)
+
 
 **React hooks for managing URL query parameters with full TypeScript support and auto-generated helper methods.**
 
