@@ -4,14 +4,16 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
+  for (var name in all) __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
+  if ((from && typeof from === "object") || typeof from === "function") {
+    for (const key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        __defProp(to, key, {
+          get: () => from[key],
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+        });
   }
   return to;
 };
@@ -21,7 +23,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   useBatchUrlParams: () => useBulkUrlParams_default,
-  useUrlParams: () => useUrlParams_default
+  useUrlParams: () => useUrlParams_default,
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -30,7 +32,7 @@ var import_react = require("react");
 var import_react_router_dom = require("react-router-dom");
 
 // src/utils.ts
-var upperFirst = (s) => s ? s[0].toUpperCase() + s.slice(1) : s;
+var upperFirst = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 
 // src/useBulkUrlParams.ts
 function useBulkUrlParams(config) {
@@ -43,7 +45,7 @@ function useBulkUrlParams(config) {
       });
       setSearchParams(params.toString(), { replace: false });
     },
-    [searchParams, setSearchParams]
+    [searchParams, setSearchParams],
   );
   const capitalizedOptions = (0, import_react.useMemo)(() => {
     const params = new URLSearchParams(searchParams);
@@ -54,7 +56,7 @@ function useBulkUrlParams(config) {
       options.forEach((option) => {
         const capitalizedOption = upperFirst(option);
         Object.assign(result, {
-          [`is${capitalizedKeyName}${capitalizedOption}`]: currentValue === option
+          [`is${capitalizedKeyName}${capitalizedOption}`]: currentValue === option,
         });
       });
     });
@@ -62,7 +64,7 @@ function useBulkUrlParams(config) {
   }, [searchParams, config]);
   return {
     set: setterFunction,
-    ...capitalizedOptions
+    ...capitalizedOptions,
   };
 }
 var useBulkUrlParams_default = useBulkUrlParams;
@@ -81,53 +83,58 @@ function useUrlParams(config) {
         setSearchParams([...params], paramsConfig);
       }
     },
-    [config.keyName, config.options, searchParams, setSearchParams]
+    [config.keyName, config.options, searchParams, setSearchParams],
   );
-  const onToggle = (0, import_react2.useCallback)((paramsConfig = { replace: false }) => {
-    if (config.options.length !== 2) {
-      console.warn("onToggle is only available when there are exactly two options");
-      return;
-    }
-    const currentOptionIndex = config.options.indexOf(currentValue);
-    let nextOption;
-    if (currentOptionIndex !== -1) {
-      const nextIndex = (currentOptionIndex + 1) % config.options.length;
-      nextOption = config.options[nextIndex];
-    } else {
-      nextOption = config.options[0];
-    }
-    setterFunction(nextOption, paramsConfig);
-  }, [config.options, currentValue, setterFunction]);
-  const clearParam = (0, import_react2.useCallback)((paramsConfig = { replace: false }) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (params.has(config.keyName)) {
-      params.delete(config.keyName);
-      setSearchParams([...params], paramsConfig);
-    }
-  }, [searchParams, config.keyName, setSearchParams]);
+  const onToggle = (0, import_react2.useCallback)(
+    (paramsConfig = { replace: false }) => {
+      if (config.options.length !== 2) {
+        console.warn("onToggle is only available when there are exactly two options");
+        return;
+      }
+      const currentOptionIndex = config.options.indexOf(currentValue);
+      let nextOption;
+      if (currentOptionIndex !== -1) {
+        const nextIndex = (currentOptionIndex + 1) % config.options.length;
+        nextOption = config.options[nextIndex];
+      } else {
+        nextOption = config.options[0];
+      }
+      setterFunction(nextOption, paramsConfig);
+    },
+    [config.options, currentValue, setterFunction],
+  );
+  const clearParam = (0, import_react2.useCallback)(
+    (paramsConfig = { replace: false }) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (params.has(config.keyName)) {
+        params.delete(config.keyName);
+        setSearchParams([...params], paramsConfig);
+      }
+    },
+    [searchParams, config.keyName, setSearchParams],
+  );
   const capitalizedOptions = (0, import_react2.useMemo)(() => {
-    return config.options.reduce(
-      (acc, option) => {
-        const capitalizedOption = upperFirst(option);
-        const capitalizedKeyName = upperFirst(config.keyName);
-        return Object.assign(acc, {
-          [`is${capitalizedKeyName}${capitalizedOption}`]: searchParams.get(config.keyName) === option
-        });
-      },
-      {}
-    );
+    return config.options.reduce((acc, option) => {
+      const capitalizedOption = upperFirst(option);
+      const capitalizedKeyName = upperFirst(config.keyName);
+      return Object.assign(acc, {
+        [`is${capitalizedKeyName}${capitalizedOption}`]:
+          searchParams.get(config.keyName) === option,
+      });
+    }, {});
   }, [searchParams, config.keyName, config.options]);
   return {
     [config.keyName]: currentValue,
     [`set${upperFirst(config.keyName)}`]: setterFunction,
     [`toggle${upperFirst(config.keyName)}`]: onToggle,
     [`clear${upperFirst(config.keyName)}`]: clearParam,
-    ...capitalizedOptions
+    ...capitalizedOptions,
   };
 }
 var useUrlParams_default = useUrlParams;
 // Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  useBatchUrlParams,
-  useUrlParams
-});
+0 &&
+  (module.exports = {
+    useBatchUrlParams,
+    useUrlParams,
+  });

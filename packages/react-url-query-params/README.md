@@ -10,7 +10,7 @@ Built for [`react-router-dom`](https://reactrouter.com/) (v6+) with **type-safe 
 
 The library provides two hooks:
 - **`useUrlParams`** - Manage a single query parameter
-- **`useBatchUrlParams`** - Manage multiple query parameters at once
+- **`useBulkUrlParams`** - Manage multiple query parameters at once
 
 ---
 
@@ -71,13 +71,13 @@ export default function MyComponent() {
 }
 ``` 
 
-### Multiple Parameters: `useBatchUrlParams`
+### Multiple Parameters: `useBulkUrlParams`
 
 ```tsx
-import { useBatchUrlParams } from 'react-url-query-params';
+import { useBulkUrlParams } from 'react-url-query-params';
 
 export default function MyComponent() {
-  const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBatchUrlParams({
+  const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBulkUrlParams({
     view: ['grid', 'table'],
     modal: ['opened', 'closed'],
   });
@@ -148,7 +148,7 @@ clearView({ replace: true });
 
 ---
 
-### `useBatchUrlParams(config)`
+### `useBulkUrlParams(config)`
 
 Manage multiple query parameters simultaneously with a single hook.
 
@@ -176,12 +176,12 @@ A record object where:
 
 ```tsx
 // Basic usage
-const { set, isViewGrid, isViewTable } = useBatchUrlParams({
+const { set, isViewGrid, isViewTable } = useBulkUrlParams({
   view: ['grid', 'table'],
 });
 
 // Multiple parameters
-const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBatchUrlParams({
+const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBulkUrlParams({
   view: ['grid', 'table'],
   modal: ['opened', 'closed'],
 });
@@ -204,10 +204,10 @@ if (isViewGrid && isModalOpened) {
 **Advanced Example:**
 
 ```tsx
-import { useBatchUrlParams } from 'react-url-query-params';
+import { useBulkUrlParams } from 'react-url-query-params';
 
 function FilterableTable() {
-  const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive } = useBatchUrlParams({
+  const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive } = useBulkUrlParams({
     sort: ['asc', 'desc'],
     filter: ['active', 'inactive'],
   });
