@@ -5,15 +5,9 @@ on:
 
   pull_request:
     branches: [main, dev]
-    paths:
-     - "packages/react-url-query-params"
-     - ".github/workflows/ci.yml"
 
   push:
     branches: [main, dev]
-    paths:
-    - "packages/react-url-query-params"
-    - ".github/workflows/ci.yml"
 
 env:
   HUSKY: 0
