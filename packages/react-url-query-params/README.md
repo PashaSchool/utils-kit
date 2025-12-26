@@ -3,6 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/use-url-params?color=blue)](https://www.npmjs.com/package/use-url-params)
 [![npm downloads](https://img.shields.io/npm/dw/use-url-params)](https://www.npmjs.com/package/use-url-params)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
+[![CI](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml/badge.svg)](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml)
+
 
 A lightweight React hook library for managing **URL query parameters** with full TypeScript support and auto-generated helper methods.
 
