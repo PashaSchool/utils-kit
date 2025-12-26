@@ -1,37 +1,37 @@
 name: CI
 
 on:
-  pull_request: 
+  pull_request:
     branches: [main, dev]
     paths:
      - "packages/react-url-query-params"
      - ".github/workflows/ci.yml"
-  
-  push: 
+
+  push:
     branches: [main, dev]
-    paths: 
+    paths:
     - "packages/react-url-query-params"
     - ".github/workflows/ci.yml"
 
 env:
   HUSKY: 0
-  
+
 permissions:
   contents: read
 
 
-jobs: 
-  test: 
+jobs:
+  test:
     runs-on: "ubuntu@lates"
     strategy:
       matrix:
         node: [18, 20]
-    steps: 
+    steps:
     - uses: actions/checkout@v4
-        
+
     - name: Use Node.js
     - uses: actions/setup-node@v4
-    - with:
+      with:
         node-version: ${{matrix.node}}
         cache: npm
 
@@ -48,5 +48,5 @@ jobs:
       working-directory: packages/react-url-query-params
       run: npm run test:run
 
-        
-      
+
+
