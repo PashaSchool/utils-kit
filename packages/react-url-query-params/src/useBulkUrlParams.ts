@@ -5,6 +5,7 @@ import { upperFirst } from "./utils";
 
 type BatchUrlReturnType<T extends Record<string, readonly string[]>> = {
   set: (values: Partial<{ [K in keyof T]: T[K][number] }>) => void;
+  clearParams: () => void;
 } & {
   [K in {
     [Key in keyof T]: {
@@ -55,8 +56,24 @@ function useBulkUrlParams<const T extends Record<string, readonly string[]>>(
     return result;
   }, [searchParams, config]);
 
+  const clearParams = useCallback(
+    (paramsConfig: ParamsConfig = { replace: false }) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(config).forEach(([key, options]) => {
+        if (params.has(key)) {
+          params.delete(key);
+        }
+      });
+
+      setSearchParams([...params], paramsConfig);
+    },
+    [searchParams, config.keyName, setSearchParams],
+  );
+
   return {
     set: setterFunction,
+    clearParams,
     ...capitalizedOptions,
   } as BatchUrlReturnType<T>;
 }
