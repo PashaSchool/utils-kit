@@ -22,7 +22,7 @@ function App() {
     <>
       <div>
         <button type="button" onClick={async () => {
-          const response = handler.start({
+          const response = await handler.start({
             fileName: "my_export",
             getNextPage: () => Promise.resolve([{success: true}])
           })
