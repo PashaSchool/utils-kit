@@ -27,7 +27,7 @@ class FsAccessExportStrategy implements ExportStrategy {
   private workerManager: WorkerManager;
 
   constructor() {
-    this.workerManager = WorkerManager.initialise()
+    this.workerManager = WorkerManager.initialise();
   }
 
   async export(params: ExportParams): Promise<any> {
