@@ -7,9 +7,9 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     css: false,
     coverage: {
-      provider: 'v8',
-      reporter: ['text', 'lcov'],
-      reportsDirectory: './coverage'
-    }
+      provider: "v8",
+      reporter: ["text", "lcov"],
+      reportsDirectory: "./coverage",
+    },
   },
 });

@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "export-csv-core": "file:../../packages/export-csv/core",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-router-dom": "^7.11.0",
     "react-url-query-params": "file:../../packages/react-url-query-params"
   },
   "devDependencies": {
