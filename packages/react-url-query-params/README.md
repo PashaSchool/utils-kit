@@ -178,12 +178,12 @@ A record object where:
 
 ```tsx
 // Basic usage
-const { set, isViewGrid, isViewTable } = useBulkUrlParams({
+const { set, isViewGrid, isViewTable, clearParams } = useBulkUrlParams({
   view: ['grid', 'table'],
 });
 
 // Multiple parameters
-const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBulkUrlParams({
+const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed, clearParams } = useBulkUrlParams({
   view: ['grid', 'table'],
   modal: ['opened', 'closed'],
 });
@@ -209,7 +209,7 @@ if (isViewGrid && isModalOpened) {
 import { useBulkUrlParams } from 'react-url-query-params';
 
 function FilterableTable() {
-  const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive } = useBulkUrlParams({
+  const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive, clearParams } = useBulkUrlParams({
     sort: ['asc', 'desc'],
     filter: ['active', 'inactive'],
   });
@@ -238,6 +238,11 @@ function FilterableTable() {
       <button onClick={() => set({ sort: 'asc' }, { replace: true })}>
         Sort Asc (No History)
       </button>
+      
+      
+      <button onClick={() => clearParams()}>
+        Clear all
+      </button>
     </div>
   );
 }
@@ -245,6 +250,7 @@ function FilterableTable() {
 
 **Notes:**
 - Use `as const` for the options arrays to get the best TypeScript inference
+- The `clearParams` function will clear all params declared in hook
 - The `set` function accepts an optional second parameter `{ replace: boolean }` to control browser history:
   - `replace: false` (default) - Adds a new entry to browser history (users can use back button)
   - `replace: true` - Replaces the current history entry (prevents back button navigation to previous state)
