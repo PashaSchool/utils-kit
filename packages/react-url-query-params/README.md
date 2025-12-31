@@ -16,17 +16,17 @@ The library provides two hooks:
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔒 **Type-safe** query parameter keys and values
-- ⚡ **Auto-generated helpers**: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
-- 🔄 **Toggle mode** for 2-option parameters
-- ✅ Works seamlessly with `react-router-dom`’s `useSearchParams`
-- 🪶 Zero dependencies (except React & react-router-dom)
+- **Type-safe** query parameter keys and values
+- **Auto-generated helpers**: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
+- **Toggle mode** for 2-option parameters
+- Works seamlessly with `react-router-dom`’s `useSearchParams`
+- Zero dependencies (except React & react-router-dom)
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install react-url-query-params
@@ -35,7 +35,7 @@ or
 ```bash
 yarn add react-url-query-params
 ```
-## 🚀 Usage
+## Usage
 
 ![Demo of react-url-query-params](./docs/demo.gif)
 
@@ -104,7 +104,7 @@ export default function MyComponent() {
 
 ---
 
-## 📚 API Reference
+## API Reference
 
 ### `useUrlParams(config)`
 

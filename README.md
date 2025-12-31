@@ -8,9 +8,9 @@ A collection of **lightweight**, **type-safe** React utilities and hooks for mod
 
 ---
 
-## 📦 Packages
+## Packages
 
-### 🎯 [react-url-query-params](./packages/react-url-query-params)
+### [react-url-query-params](./packages/react-url-query-params)
 
 [![npm version](https://img.shields.io/npm/v/react-url-query-params?color=blue&logo=npm)](https://www.npmjs.com/package/react-url-query-params)
 [![npm downloads](https://img.shields.io/npm/dw/react-url-query-params?logo=npm)](https://www.npmjs.com/package/react-url-query-params)
@@ -24,28 +24,28 @@ A collection of **lightweight**, **type-safe** React utilities and hooks for mod
 Built for `react-router-dom` (v6+) with type-safe keys, option validation, and handy helper flags.
 
 **Features:**
-- 🔒 Type-safe query parameter keys and values
-- ⚡ Auto-generated helpers: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
-- 🔄 Toggle mode for 2-option parameters
-- 📦 Batch parameter management with `useBatchUrlParams`
-- 🪶 Zero dependencies (except React & react-router-dom)
+- Type-safe query parameter keys and values
+- Auto-generated helpers: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
+- Toggle mode for 2-option parameters
+- Bulk parameter management with `useBulkUrlParams`
+- Zero dependencies (except React & react-router-dom)
 
-**[📖 Read Full Documentation →](./packages/react-url-query-params/README.md)**
+**[Read Full Documentation →](./packages/react-url-query-params/README.md)**
 
 ---
-## 📄 License
+## License
 
 MIT © [Pavlo Kuzina](LICENSE)
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 🔗 Links
+## Links
 
 - **Repository**: [GitHub](https://github.com/PashaSchool/utils-kit)
 - **Issues**: [GitHub Issues](https://github.com/PashaSchool/utils-kit/issues)
