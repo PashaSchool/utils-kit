@@ -1,7 +1,7 @@
 # useUrlParams
 
-[![npm version](https://img.shields.io/npm/v/use-url-params?color=blue)](https://www.npmjs.com/package/use-url-params)
-[![npm downloads](https://img.shields.io/npm/dw/use-url-params)](https://www.npmjs.com/package/use-url-params)
+[![npm version](https://img.shields.io/npm/v/react-url-query-params?color=blue)](https://www.npmjs.com/package/react-url-query-params)
+[![npm downloads](https://img.shields.io/npm/dw/react-url-query-params)](https://www.npmjs.com/package/react-url-query-params)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 [![CI](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml/badge.svg)](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml)
 
