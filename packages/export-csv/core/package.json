@@ -13,7 +13,8 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "development": "./src/index.ts"
     },
     "./worker": {
       "import": "./dist/worker.js",
