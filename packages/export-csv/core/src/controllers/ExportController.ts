@@ -11,7 +11,6 @@ export class ExportController {
   constructor(private readonly deps: ExportControllerDeps) {}
 
   public async start(params: ExportParams): Promise<any> {
-    console.log("ExportController::start()4");
     const strategy = this._resolveStrategy();
 
     return strategy.export(params);

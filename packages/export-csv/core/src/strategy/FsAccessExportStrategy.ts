@@ -47,7 +47,8 @@ class FsAccessExportStrategy implements ExportStrategy {
     const readable = new ReadableStream({
       pull: async (controller) => {
         const rows = await params.getNextPage(iterator++);
-
+        console.log('before party started', {rows});
+        
         if (!rows || !rows.length) {
           controller.close();
           messaging.close();
@@ -58,7 +59,7 @@ class FsAccessExportStrategy implements ExportStrategy {
 
         const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
         // TODO: Messaging
-
+        console.log('after chunks', {rows});
         const _postMessagePayload = {
           type: "progress",
           payload: { total: 100 },
