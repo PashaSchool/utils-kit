@@ -65,7 +65,7 @@ function App() {
   const {handler} = useExportCSV()
   
   useMessageExportCSV((payload) => {
-    console.log("useMessageExportCSV::", {payload})
+    // console.log("useMessageExportCSV::", {payload})
   })
   
   return (
@@ -76,13 +76,13 @@ function App() {
             fileName: BENCHMARK,
             getNextPage: async (skipIterationNumber) => {
               const rows = await fetchData(skipIterationNumber);
-              console.log("my_export", {skipIterationNumber, rows})
+              // console.log("my_export", {skipIterationNumber, rows})
               
               return rows
             }
           })
           
-          console.log("response::", {response})
+          // console.log("response::", {response})
         }}>
           <img src={viteLogo} className="logo" alt="Vite logo"/>
         </button>

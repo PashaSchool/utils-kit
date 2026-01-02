@@ -63,9 +63,13 @@ class FsAccessExportStrategy implements ExportStrategy {
             return;
           }
           
+          const response  = await this.workerManager.triggerWorker({id: iterator,type: 'process', data: 'hello world'})
+          
+          console.log("triggerWorker::",{response})
+          
           const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
           // TODO: Messaging
-          console.log('after chunks', {rows});
+          //  console.log('after chunks', {rows});
           
           messaging.postMessage(JSON.stringify({
             type: "progress",
