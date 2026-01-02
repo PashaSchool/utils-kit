@@ -46,34 +46,51 @@ class FsAccessExportStrategy implements ExportStrategy {
 
     const readable = new ReadableStream({
       pull: async (controller) => {
-        const rows = await params.getNextPage(iterator++);
-        console.log('before party started', {rows});
-        
-        if (!rows || !rows.length) {
-          controller.close();
-          messaging.close();
-          this.workerManager.terminate();
-
-          return;
+        try {
+          const rows = await params.getNextPage(iterator++);
+          
+          if (!rows || !rows.length) {
+            controller.close();
+            
+            messaging.postMessage(JSON.stringify({
+              type: "progress",
+              payload: { total: 100, state: 'success' },
+            }));
+            
+            messaging.close();
+            this.workerManager.terminate();
+            
+            return;
+          }
+          
+          const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
+          // TODO: Messaging
+          console.log('after chunks', {rows});
+          
+          messaging.postMessage(JSON.stringify({
+            type: "progress",
+            payload: { total: 100, state: 'pending' },
+          }));
+          
+          controller.enqueue(encoder.encode(csvChunks));
+        } catch (error) {
+          controller.error(error);
+          
+          messaging.postMessage(JSON.stringify({
+            type: "progress",
+            payload: { total: 100, state: 'failed' },
+          }));
         }
-
-        const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
-        // TODO: Messaging
-        console.log('after chunks', {rows});
-        const _postMessagePayload = {
-          type: "progress",
-          payload: { total: 100 },
-        };
-        messaging.postMessage(JSON.stringify(_postMessagePayload));
-        // workerManager.postMessage("Ping");
-
-        controller.enqueue(encoder.encode(csvChunks));
       },
     });
 
     await readable.pipeTo(fileStram);
 
     console.log("FsAccessExportStrategy::export(params)", { params });
+    
+    return {
+      finished: true
+    }
   }
 }
 
