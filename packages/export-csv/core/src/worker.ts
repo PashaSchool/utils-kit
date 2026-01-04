@@ -23,17 +23,17 @@ type WorkerResponse = {
 };
 
 self.onmessage = (event: MessageEvent<WorkerMessage>) => {
-  const {id, type, columns, data} = event.data;
-  
+  const { id, type, columns, data } = event.data;
+
   try {
     if (type === "process") {
       // Process CSV data
-      const result = {test: true};
-      self.postMessage({id, result} as WorkerResponse);
+      const result = { test: true };
+      self.postMessage({ id, result } as WorkerResponse);
     }
   } catch (error) {
-    const _error = error instanceof Error ? error : new Error(String(error))
-    
+    const _error = error instanceof Error ? error : new Error(String(error));
+
     self.postMessage({
       id,
       error: _error,

@@ -1,28 +1,6 @@
 import type { ExportParams, ExportStrategy } from "../types";
 import WorkerManager from "../WorkerManager";
 
-const pending = new Map<
-  string,
-  { resolve: (value: unknown) => void; reject: (reason?: any) => void }
->();
-
-// worker.onmessage((event) => {
-//   const { id, result, error } = event.data;
-//   const entity = pending.get(id);
-//
-//   if (!entity) {
-//     return;
-//   }
-//
-//   pending.delete(id);
-//
-//   if (error) {
-//     entity.reject(error);
-//   } else {
-//     entity.resolve(result);
-//   }
-// });
-
 class FsAccessExportStrategy implements ExportStrategy {
   private workerManager: WorkerManager;
 
@@ -48,42 +26,52 @@ class FsAccessExportStrategy implements ExportStrategy {
       pull: async (controller) => {
         try {
           const rows = await params.getNextPage(iterator++);
-          
+
           if (!rows || !rows.length) {
             controller.close();
-            
-            messaging.postMessage(JSON.stringify({
-              type: "progress",
-              payload: { total: 100, state: 'success' },
-            }));
-            
+
+            messaging.postMessage(
+              JSON.stringify({
+                type: "progress",
+                payload: { total: 100, state: "success" },
+              }),
+            );
+
             messaging.close();
             this.workerManager.terminate();
-            
+
             return;
           }
-          
-          const response  = await this.workerManager.triggerWorker({id: iterator,type: 'process', data: 'hello world'})
-          
-          console.log("triggerWorker::",{response})
-          
+
+          const response = await this.workerManager.triggerWorker({
+            id: iterator,
+            type: "process",
+            data: "hello world",
+          });
+
+          console.log("triggerWorker::", { response });
+
           const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
           // TODO: Messaging
           //  console.log('after chunks', {rows});
-          
-          messaging.postMessage(JSON.stringify({
-            type: "progress",
-            payload: { total: 100, state: 'pending' },
-          }));
-          
+
+          messaging.postMessage(
+            JSON.stringify({
+              type: "progress",
+              payload: { total: 100, state: "pending" },
+            }),
+          );
+
           controller.enqueue(encoder.encode(csvChunks));
         } catch (error) {
           controller.error(error);
-          
-          messaging.postMessage(JSON.stringify({
-            type: "progress",
-            payload: { total: 100, state: 'failed' },
-          }));
+
+          messaging.postMessage(
+            JSON.stringify({
+              type: "progress",
+              payload: { total: 100, state: "failed" },
+            }),
+          );
         }
       },
     });
@@ -91,10 +79,10 @@ class FsAccessExportStrategy implements ExportStrategy {
     await readable.pipeTo(fileStram);
 
     console.log("FsAccessExportStrategy::export(params)", { params });
-    
+
     return {
-      finished: true
-    }
+      finished: true,
+    };
   }
 }
 

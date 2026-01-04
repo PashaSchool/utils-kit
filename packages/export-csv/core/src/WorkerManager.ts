@@ -21,44 +21,52 @@ class WorkerManager {
       type: "module",
       name: WEB_WORKER_NAME,
     });
-    
+
     this.#listenerRegistry();
   }
 
   static initialise() {
     return new WorkerManager();
   }
-  
+
   #listenerRegistry() {
-    this.#worker!.addEventListener('message', (event) => {
+    this.#worker!.addEventListener("message", (event) => {
       const { id, result, error } = event.data;
       const entity = pending.get(id);
-      
+
       if (!entity) {
         return;
       }
-      
+
       pending.delete(id);
-      
+
       if (error) {
         entity.reject(error);
       } else {
         entity.resolve(result);
       }
-      
-      console.log("#listenerRegistry",{event})
-    })
+
+      console.log("#listenerRegistry", { event });
+    });
+
+    this.#worker!.addEventListener("error", (event) => {
+      for (const [, { reject }] of pending) {
+        reject(event);
+      }
+
+      pending.clear();
+    });
   }
-  
+
   async triggerWorker(payload: any) {
     const id = payload.id ?? Math.random().toString(36).substr(2);
-    
+
     const p = new Promise((resolve, reject) => {
-      pending.set(id, {resolve, reject});
-    })
-    
+      pending.set(id, { resolve, reject });
+    });
+
     this.#worker!.postMessage(payload);
-    
+
     return p;
   }
 
