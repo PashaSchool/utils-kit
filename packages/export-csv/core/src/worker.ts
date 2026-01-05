@@ -1,3 +1,5 @@
+import {objectsToCSV} from "./utils";
+
 type FormatTypes = {
   dataType: "Date" | "Timestamp" | "Utc";
   applyFormattingType: "DD/MM/YYYY";
@@ -16,11 +18,17 @@ type WorkerMessage = {
   data?: any[];
 };
 
-type WorkerResponse = {
+type WorkerSuccess = {
   id: string;
-  result?: any;
-  error?: Error;
-};
+  result: string
+}
+
+type WorkerFailure = {
+  id: string;
+  error: Error
+}
+
+type WorkerResponse = WorkerSuccess | WorkerFailure;
 
 self.onmessage = (event: MessageEvent<WorkerMessage>) => {
   const { id, type, columns, data } = event.data;
@@ -28,8 +36,9 @@ self.onmessage = (event: MessageEvent<WorkerMessage>) => {
   try {
     if (type === "process") {
       // Process CSV data
-      const result = { test: true };
-      self.postMessage({ id, result } as WorkerResponse);
+      // const result = { test: true };
+      const csvChunk = objectsToCSV(data)
+      self.postMessage({ id, result: csvChunk } as WorkerResponse);
     }
   } catch (error) {
     const _error = error instanceof Error ? error : new Error(String(error));

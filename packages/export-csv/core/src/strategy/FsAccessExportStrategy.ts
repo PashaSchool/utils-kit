@@ -38,7 +38,6 @@ class FsAccessExportStrategy implements ExportStrategy {
             );
 
             messaging.close();
-            this.workerManager.terminate();
 
             return;
           }
@@ -46,12 +45,12 @@ class FsAccessExportStrategy implements ExportStrategy {
           const response = await this.workerManager.triggerWorker({
             id: iterator,
             type: "process",
-            data: "hello world",
+            data: rows,
           });
 
           console.log("triggerWorker::", { response });
 
-          const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
+          // const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
           // TODO: Messaging
           //  console.log('after chunks', {rows});
 
@@ -62,7 +61,7 @@ class FsAccessExportStrategy implements ExportStrategy {
             }),
           );
 
-          controller.enqueue(encoder.encode(csvChunks));
+          controller.enqueue(encoder.encode(response as string));
         } catch (error) {
           controller.error(error);
 
@@ -75,8 +74,21 @@ class FsAccessExportStrategy implements ExportStrategy {
         }
       },
     });
-
-    await readable.pipeTo(fileStram);
+    
+    const writable = new WritableStream({
+      write(chunk) {
+        // chunk can be Uint8Array or string depending on your readable
+        return fileStram.write(chunk);
+      },
+      close() {
+        return fileStram.close();
+      },
+      abort(reason) {
+        return fileStram.abort(reason);
+      },
+    });
+    
+    await readable.pipeTo(writable).finally(() => this.workerManager.terminate())
 
     console.log("FsAccessExportStrategy::export(params)", { params });
 
