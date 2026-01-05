@@ -1,6 +1,8 @@
+type Column = { key: string, label: string, format?: FormatTypes };
+
 export type ExportParams = {
   fileName: string;
-  columns: { key: string, label: string }[]
+  columns: Column[]
   getNextPage: (offset: number) => Promise<any[]>;
 };
 
@@ -14,11 +16,6 @@ type FormatTypes = {
   applyFormattingType: "DD/MM/YYYY";
 };
 
-type Column = {
-  key: string;
-  header: string;
-  format?: FormatTypes;
-};
 
 export type WorkerMessage = {
   id: string;
