@@ -46,13 +46,19 @@ class FsAccessExportStrategy implements ExportStrategy {
             id: iterator,
             type: "process",
             data: rows,
+            columns: [
+              {key: 'id', label: 'ID'},
+              {key: 'title', label: 'Title'},
+              {key: 'body', label: 'Content'},
+              {key: 'userId', label: 'USER ID'},
+            ]
           });
 
           console.log("triggerWorker::", { response });
 
           // const csvChunks = rows.map((row) => row).join(""); // TODO: Worker handler
           // TODO: Messaging
-          //  console.log('after chunks', {rows});
+          // console.log('after chunks', {rows});
 
           messaging.postMessage(
             JSON.stringify({

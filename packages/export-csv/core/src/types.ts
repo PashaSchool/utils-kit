@@ -20,7 +20,7 @@ type Column = {
 
 export type WorkerMessage = {
   id: string;
-  type: "process" | "format";
+  type: "process" | "format" | "complete";
   columns?: Array<Column>;
   data?: any[];
 };
@@ -28,11 +28,13 @@ export type WorkerMessage = {
 type WorkerSuccess = {
   id: string;
   result: string;
+  type: string
 };
 
 type WorkerFailure = {
   id: string;
   error: Error;
+  type: string
 };
 
 export type WorkerResponse = WorkerSuccess | WorkerFailure;
