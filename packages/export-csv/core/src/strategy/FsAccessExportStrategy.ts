@@ -16,7 +16,7 @@ class FsAccessExportStrategy implements ExportStrategy {
       types: [{ description: "CSV file", accept: { "text/csv": [".csv"] } }],
     });
 
-    const fileStram = await fileHandle.createWritable();
+    const fileStream = await fileHandle.createWritable();
     let iterator = 0;
 
     const encoder = new TextEncoder();
@@ -76,21 +76,15 @@ class FsAccessExportStrategy implements ExportStrategy {
         }
       },
     });
-
-    const writable = new WritableStream({
-      write(chunk) {
-        // chunk can be Uint8Array or string depending on your readable
-        return fileStram.write(chunk);
-      },
-      close() {
-        return fileStram.close();
-      },
-      abort(reason) {
-        return fileStram.abort(reason);
-      },
-    });
-
-    await readable.pipeTo(writable).finally(() => this.workerManager.terminate());
+    
+    try {
+      await readable.pipeTo(fileStream);
+    } catch (err) {
+      console.error("Export failed:", err);
+      throw err;
+    } finally {
+      this.workerManager.terminate();
+    }
 
     console.log("FsAccessExportStrategy::export(params)", { params });
 
