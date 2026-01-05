@@ -75,7 +75,13 @@ function App() {
               // console.log("my_export", {skipIterationNumber, rows})
               
               return rows
-            }
+            } ,
+            columns: [
+              { key: "id", label: "ID" },
+              { key: "title", label: "Title" },
+              { key: "body", label: "Content" },
+              { key: "userId", label: "USER ID" },
+            ]
           })
           
           // console.log("response::", {response})

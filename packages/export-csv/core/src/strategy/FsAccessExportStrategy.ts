@@ -46,12 +46,7 @@ class FsAccessExportStrategy implements ExportStrategy {
             id: iterator,
             type: "process",
             data: rows,
-            columns: [
-              { key: "id", label: "ID" },
-              { key: "title", label: "Title" },
-              { key: "body", label: "Content" },
-              { key: "userId", label: "USER ID" },
-            ],
+            columns: params.columns,
           });
 
           console.log("triggerWorker::", { response });

@@ -1,7 +1,9 @@
 export type ExportParams = {
   fileName: string;
+  columns: { key: string, label: string }[]
   getNextPage: (offset: number) => Promise<any[]>;
 };
+
 
 export interface ExportStrategy {
   export(params: ExportParams): Promise<any>;
