@@ -28,13 +28,13 @@ export type WorkerMessage = {
 type WorkerSuccess = {
   id: string;
   result: string;
-  type: string
+  type: string;
 };
 
 type WorkerFailure = {
   id: string;
   error: Error;
-  type: string
+  type: string;
 };
 
 export type WorkerResponse = WorkerSuccess | WorkerFailure;

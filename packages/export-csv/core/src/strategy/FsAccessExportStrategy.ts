@@ -47,11 +47,11 @@ class FsAccessExportStrategy implements ExportStrategy {
             type: "process",
             data: rows,
             columns: [
-              {key: 'id', label: 'ID'},
-              {key: 'title', label: 'Title'},
-              {key: 'body', label: 'Content'},
-              {key: 'userId', label: 'USER ID'},
-            ]
+              { key: "id", label: "ID" },
+              { key: "title", label: "Title" },
+              { key: "body", label: "Content" },
+              { key: "userId", label: "USER ID" },
+            ],
           });
 
           console.log("triggerWorker::", { response });
@@ -76,7 +76,7 @@ class FsAccessExportStrategy implements ExportStrategy {
         }
       },
     });
-    
+
     try {
       await readable.pipeTo(fileStream);
     } catch (err) {
