@@ -74,7 +74,7 @@ class FsAccessExportStrategy implements ExportStrategy {
         }
       },
     });
-    
+
     const writable = new WritableStream({
       write(chunk) {
         // chunk can be Uint8Array or string depending on your readable
@@ -87,8 +87,8 @@ class FsAccessExportStrategy implements ExportStrategy {
         return fileStram.abort(reason);
       },
     });
-    
-    await readable.pipeTo(writable).finally(() => this.workerManager.terminate())
+
+    await readable.pipeTo(writable).finally(() => this.workerManager.terminate());
 
     console.log("FsAccessExportStrategy::export(params)", { params });
 
