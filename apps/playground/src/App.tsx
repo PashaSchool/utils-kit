@@ -11,11 +11,7 @@ async function fetchData(nextIteration: number) {
     _page: String(nextIteration),
     limit: '10'
   })
-  
-  if (nextIteration === 5) {
-    throw new Error("Stop")
-  }
-  
+
   const response = await fetch(`https://jsonplaceholder.typicode.com/posts?${searchParams.toString()}`)
   const data = await response.json()
   
