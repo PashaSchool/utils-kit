@@ -16,7 +16,7 @@ class FsAccessExportStrategy implements ExportStrategy {
       types: [{ description: "CSV file", accept: { "text/csv": [".csv"] } }],
     });
 
-    const fileStream = await fileHandle.createWritable();
+    const writableFileStream = await fileHandle.createWritable();
     let iterator = 0;
 
     const encoder = new TextEncoder();
@@ -73,7 +73,7 @@ class FsAccessExportStrategy implements ExportStrategy {
     });
 
     try {
-      await readable.pipeTo(fileStream);
+      await readable.pipeTo(writableFileStream);
     } catch (err) {
       console.error("Export failed:", err);
       throw err;
