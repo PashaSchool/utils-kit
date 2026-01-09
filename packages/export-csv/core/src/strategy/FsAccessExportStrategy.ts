@@ -43,16 +43,12 @@ class FsAccessExportStrategy implements ExportStrategy {
             return;
           }
 
-          console.log("triggerWorker::");
-
           const csvChunks = await this.workerManager.triggerWorker({
             id: iterator,
             type: "to_csv_chunk",
             data: rows,
             columns: params.columns,
           });
-
-          console.log("triggerWorker::", { csvChunks });
 
           messaging.postMessage(
             JSON.stringify({
@@ -84,10 +80,11 @@ class FsAccessExportStrategy implements ExportStrategy {
       this.workerManager.terminate();
     }
 
-    console.log("FsAccessExportStrategy::export(params)", { params });
-
     return {
       finished: true,
+      logs: {
+        warnings: [],
+      },
     };
   }
 }
