@@ -58,7 +58,7 @@ class WorkerManager {
 
   async triggerWorker(payload: any) {
     const id = payload.id ?? Math.random().toString(36).substr(2);
-    console.log("WorkerManager::trigger", { payload });
+
     const p = new Promise((resolve, reject) => {
       pending.set(id, { resolve, reject });
     });

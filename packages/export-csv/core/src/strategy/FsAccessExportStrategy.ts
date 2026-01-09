@@ -1,3 +1,4 @@
+import { BROADCAST_CHANNEL_NAME } from "../contants";
 import type { ExportParams, ExportStrategy } from "../types";
 import WorkerManager from "../WorkerManager";
 
@@ -18,24 +19,33 @@ class FsAccessExportStrategy implements ExportStrategy {
 
     const writableFileStream = await fileHandle.createWritable();
     let iterator = 0;
+    let totalRowsLoaded = 0;
 
     const encoder = new TextEncoder();
-    const messaging = new BroadcastChannel(_suggestedName);
+    const messaging = new BroadcastChannel(BROADCAST_CHANNEL_NAME);
 
     const readable = new ReadableStream({
       pull: async (controller) => {
         try {
-          const rows = await params.getNextPage(iterator++);
+          const response = await params.getNextPage(iterator++);
 
-          if (!rows || !rows.length) {
+          const safeRows = Array.isArray(response.rows) ? response?.rows : [];
+          const safeTotal = response.total ?? 0;
+
+          const isRowsEmpty = !safeRows || !safeRows.length;
+          totalRowsLoaded = isRowsEmpty ? safeTotal : (totalRowsLoaded += safeRows.length);
+          const isFinished = totalRowsLoaded >= safeTotal;
+
+          if (isRowsEmpty) {
             messaging.postMessage(
               JSON.stringify({
-                type: "progress",
-                payload: { total: 100, state: "success" },
+                type: "done",
+                total: safeTotal,
+                loadedItemsCount: totalRowsLoaded,
               }),
             );
 
-            await this.workerManager.triggerWorker({ id: iterator, type: "done" });
+            await this.workerManager.triggerWorker({ id: iterator, type: "completed" });
 
             messaging.close();
             controller.close();
@@ -46,25 +56,44 @@ class FsAccessExportStrategy implements ExportStrategy {
           const csvChunks = await this.workerManager.triggerWorker({
             id: iterator,
             type: "to_csv_chunk",
-            data: rows,
+            data: safeRows,
             columns: params.columns,
           });
 
           messaging.postMessage(
             JSON.stringify({
               type: "progress",
-              payload: { total: 100, state: "pending" },
+              total: safeTotal,
+              loadedItemsCount: totalRowsLoaded,
             }),
           );
 
           controller.enqueue(encoder.encode(csvChunks as string));
+
+          if (isFinished) {
+            messaging.postMessage(
+              JSON.stringify({
+                type: "done",
+                total: safeTotal,
+                loadedItemsCount: totalRowsLoaded,
+              }),
+            );
+
+            await this.workerManager.triggerWorker({ id: iterator, type: "completed" });
+
+            messaging.close();
+            controller.close();
+
+            return;
+          }
         } catch (error) {
           controller.error(error);
 
           messaging.postMessage(
             JSON.stringify({
-              type: "progress",
-              payload: { total: 100, state: "failed" },
+              type: "failed",
+              total: 0,
+              loadedItemsCount: totalRowsLoaded,
             }),
           );
         }
@@ -82,6 +111,7 @@ class FsAccessExportStrategy implements ExportStrategy {
 
     return {
       finished: true,
+      totalRowsLoaded,
       logs: {
         warnings: [],
       },

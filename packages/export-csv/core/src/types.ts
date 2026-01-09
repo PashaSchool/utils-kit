@@ -1,19 +1,28 @@
-type Column = { key: string; label: string; format?: FormatTypes };
+export type formatterTypes =
+  | "dateFull"
+  | "dateMediumTime"
+  | "timeShort"
+  | "numDecimal"
+  | "numCompact"
+  | "numCurrency"
+  | "numPercent";
+
+export type Column = {
+  key: string;
+  label: string;
+  timezone?: "UTC" | string;
+  formatType?: formatterTypes;
+};
 
 export type ExportParams = {
   fileName: string;
   columns: Column[];
-  getNextPage: (offset: number) => Promise<any[]>;
+  getNextPage: (offset: number) => Promise<{ rows: any[]; total: number }>;
 };
 
 export interface ExportStrategy {
   export(params: ExportParams): Promise<any>;
 }
-
-type FormatTypes = {
-  dataType: "Date" | "Timestamp" | "Utc";
-  applyFormattingType: "DD/MM/YYYY";
-};
 
 export type JobId = number & { __brand: "JobId" };
 
