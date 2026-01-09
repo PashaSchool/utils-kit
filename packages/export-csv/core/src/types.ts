@@ -17,7 +17,6 @@ type FormatTypes = {
 
 export type JobId = string & { readonly __brand: unique symbol };
 
-
 export type ToCSVChunkMessage = {
   id: JobId;
   type: "to_csv_chunk";
