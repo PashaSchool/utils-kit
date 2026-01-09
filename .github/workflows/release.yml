@@ -24,28 +24,18 @@ env:
   HUSKY: 0
 
 jobs:
-  publish:
+  publish-react-url-query-params:
     runs-on: ubuntu-latest
     environment: prod
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/react-url-query-params@')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.package == 'react-url-query-params')
 
     permissions:
       contents: read
       id-token: write
 
-    strategy:
-      matrix:
-        include:
-          - package: react-url-query-params
-            directory: packages/react-url-query-params
-          - package: react-csv-autopilot
-            directory: packages/react-csv-autopilot
-
-    # Only run for matching tag or manual workflow dispatch
-    if: |
-      (github.event_name == 'push' && startsWith(github.ref, format('refs/tags/{0}@', matrix.package))) ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.package == matrix.package)
-
-    name: Publish ${{ matrix.package }}
+    name: Publish react-url-query-params
 
     steps:
       - name: "Checkout"
@@ -67,20 +57,20 @@ jobs:
         run: npm install
 
       - name: "Build library"
-        working-directory: ${{ matrix.directory }}
+        working-directory: packages/react-url-query-params
         run: npm run build
 
       - name: "Extract version from tag"
         if: github.event_name == 'push'
         id: tag_version
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/${{ matrix.package }}@}
+          TAG_VERSION=${GITHUB_REF#refs/tags/react-url-query-params@}
           echo "version=${TAG_VERSION}" >> $GITHUB_OUTPUT
           echo "Extracted version: ${TAG_VERSION}"
 
       - name: "Check version matches tag"
         if: github.event_name == 'push'
-        working-directory: ${{ matrix.directory }}
+        working-directory: packages/react-url-query-params
         run: |
           TAG_VERSION=${{ steps.tag_version.outputs.version }}
           PKG_VERSION=$(node -p "require('./package.json').version")
@@ -113,10 +103,95 @@ jobs:
             fi
           fi
           echo "tag=${NPM_TAG}" >> $GITHUB_OUTPUT
-          echo "📦 Publishing with npm tag: ${NPM_TAG}"
+          echo "Publishing with npm tag: ${NPM_TAG}"
 
       - name: "Publish to npm (Trusted Publishing)"
-        working-directory: ${{ matrix.directory }}
+        working-directory: packages/react-url-query-params
+        run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
+
+  publish-react-csv-autopilot:
+    runs-on: ubuntu-latest
+    environment: prod
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/react-csv-autopilot@')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.package == 'react-csv-autopilot')
+
+    permissions:
+      contents: read
+      id-token: write
+
+    name: Publish react-csv-autopilot
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Use node.js v20.X"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Upgrade npm
+        run: |
+          npm install -g npm@latest
+          npm -v
+
+      - name: "Install dependencies (monorepo root)"
+        run: npm install
+
+      - name: "Build library"
+        working-directory: packages/react-csv-autopilot
+        run: npm run build
+
+      - name: "Extract version from tag"
+        if: github.event_name == 'push'
+        id: tag_version
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/react-csv-autopilot@}
+          echo "version=${TAG_VERSION}" >> $GITHUB_OUTPUT
+          echo "Extracted version: ${TAG_VERSION}"
+
+      - name: "Check version matches tag"
+        if: github.event_name == 'push'
+        working-directory: packages/react-csv-autopilot
+        run: |
+          TAG_VERSION=${{ steps.tag_version.outputs.version }}
+          PKG_VERSION=$(node -p "require('./package.json').version")
+
+          echo "Tag version: $TAG_VERSION"
+          echo "Package version: $PKG_VERSION"
+
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Version in package.json ($PKG_VERSION) does not match tag version ($TAG_VERSION)"
+            exit 1
+          fi
+          
+          echo "Version matches!"
+
+      - name: "Determine npm tag"
+        id: npm_tag
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            NPM_TAG="${{ github.event.inputs.npm_tag }}"
+          else
+            VERSION="${{ steps.tag_version.outputs.version }}"
+            if [[ "$VERSION" == *"-beta"* ]]; then
+              NPM_TAG="beta"
+            elif [[ "$VERSION" == *"-alpha"* ]]; then
+              NPM_TAG="alpha"
+            elif [[ "$VERSION" == *"-rc"* ]]; then
+              NPM_TAG="rc"
+            else
+              NPM_TAG="latest"
+            fi
+          fi
+          echo "tag=${NPM_TAG}" >> $GITHUB_OUTPUT
+          echo "Publishing with npm tag: ${NPM_TAG}"
+
+      - name: "Publish to npm (Trusted Publishing)"
+        working-directory: packages/react-csv-autopilot
         run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
 
 
