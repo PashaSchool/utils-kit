@@ -1,6 +1,6 @@
 {
   "name": "react-csv-autopilot",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.2",
   "description": "React hooks for CSV export with automatic pagination - drop the function, we handle the rest",
   "author": "Pavlo Kuzina",
   "license": "MIT",
