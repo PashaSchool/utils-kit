@@ -15,7 +15,7 @@ type FormatTypes = {
   applyFormattingType: "DD/MM/YYYY";
 };
 
-export type JobId = string & { readonly __brand: unique symbol };
+export type JobId = number & { __brand: "JobId" };
 
 export type ToCSVChunkMessage = {
   id: JobId;

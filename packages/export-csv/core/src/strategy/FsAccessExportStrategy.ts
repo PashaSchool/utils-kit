@@ -43,9 +43,11 @@ class FsAccessExportStrategy implements ExportStrategy {
             return;
           }
 
+          console.log("triggerWorker::");
+
           const csvChunks = await this.workerManager.triggerWorker({
             id: iterator,
-            type: "map_to_csv",
+            type: "to_csv_chunk",
             data: rows,
             columns: params.columns,
           });
