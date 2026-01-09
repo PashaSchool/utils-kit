@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@types/react": "^18",
+    "@types/wicg-file-system-access": "^2023.10.7",
     "react": "^19.2.3",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
@@ -39,6 +40,10 @@
     "url": "git+https://github.com/PashaSchool/utils-kit.git",
     "directory": "packages/react-csv-autopilot"
   },
+  "bugs": {
+    "url": "https://github.com/PashaSchool/utils-kit/issues"
+  },
+  "homepage": "https://github.com/PashaSchool/utils-kit/blob/main/packages/react-csv-autopilot/README.md",
   "keywords": [
     "react",
     "csv",
@@ -47,6 +52,13 @@
     "autopilot",
     "pagination",
     "streaming",
-    "typescript"
+    "typescript",
+    "download",
+    "file-export",
+    "web-workers",
+    "progress-tracking",
+    "file-system-access",
+    "large-datasets",
+    "data-export"
   ]
 }

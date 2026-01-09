@@ -8,9 +8,9 @@ A collection of **lightweight**, **type-safe** React utilities and hooks for mod
 
 ---
 
-## 📦 Packages
+## Packages
 
-### 🎯 [react-url-query-params](./packages/react-url-query-params)
+### [react-url-query-params](./packages/react-url-query-params)
 
 [![npm version](https://img.shields.io/npm/v/react-url-query-params?color=blue&logo=npm)](https://www.npmjs.com/package/react-url-query-params)
 [![npm downloads](https://img.shields.io/npm/dw/react-url-query-params?logo=npm)](https://www.npmjs.com/package/react-url-query-params)
@@ -24,17 +24,17 @@ A collection of **lightweight**, **type-safe** React utilities and hooks for mod
 Built for `react-router-dom` (v6+) with type-safe keys, option validation, and handy helper flags.
 
 **Features:**
-- 🔒 Type-safe query parameter keys and values
-- ⚡ Auto-generated helpers: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
-- 🔄 Toggle mode for 2-option parameters
-- 📦 Batch parameter management with `useBatchUrlParams`
-- 🪶 Zero dependencies (except React & react-router-dom)
+- Type-safe query parameter keys and values
+- Auto-generated helpers: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
+- Toggle mode for 2-option parameters
+- Batch parameter management with `useBatchUrlParams`
+- Zero dependencies (except React & react-router-dom)
 
-**[📖 Read Full Documentation →](./packages/react-url-query-params/README.md)**
+**[Read Full Documentation →](./packages/react-url-query-params/README.md)**
 
 ---
 
-### 🛩️ [react-csv-autopilot](./packages/react-csv-autopilot)
+### [react-csv-autopilot](./packages/react-csv-autopilot)
 
 [![npm version](https://img.shields.io/npm/v/react-csv-autopilot?color=blue&logo=npm)](https://www.npmjs.com/package/react-csv-autopilot)
 [![npm downloads](https://img.shields.io/npm/dw/react-csv-autopilot?logo=npm)](https://www.npmjs.com/package/react-csv-autopilot)
@@ -46,14 +46,14 @@ Built for `react-router-dom` (v6+) with type-safe keys, option validation, and h
 Export large datasets to CSV with streaming, automatic pagination, and real-time progress tracking. Built with Web Workers for non-blocking performance.
 
 **Features:**
-- 🚀 Automatic pagination - just provide a `getNextPage` function
-- 🔄 Streaming export for memory-efficient large files
-- ⚡ Non-blocking with Web Workers
-- 📊 Real-time progress tracking
-- 🎯 Full TypeScript support
-- 🪶 Zero dependencies (except React)
+- Automatic pagination - just provide a `getNextPage` function
+- Streaming export for memory-efficient large files
+- Non-blocking with Web Workers
+- Real-time progress tracking
+- Full TypeScript support
+- Zero dependencies (except React)
 
-**[📖 Read Full Documentation →](./packages/react-csv-autopilot/README.md)**
+**[Read Full Documentation →](./packages/react-csv-autopilot/README.md)**
 
 ---
 ## 📄 License
