@@ -49,12 +49,14 @@ self.onmessage = (event: MessageEvent<ToWorkerMessage>) => {
     switch (msg.type) {
       case "to_csv_chunk": {
         const { columns, data, id } = msg;
-        const csvChunk = objectsToCSV(data, columns, !headersWritten);
+        const csvChunk = objectsToCSV(data, columns, !headersWritten.get(id));
         const out: FromWorkerMessage = {
           id,
           result: csvChunk,
           type: "csv_chunk",
         };
+
+        headersWritten.set(id, true);
 
         self.postMessage(out);
 
