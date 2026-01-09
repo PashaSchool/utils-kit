@@ -28,8 +28,6 @@ class FsAccessExportStrategy implements ExportStrategy {
           const rows = await params.getNextPage(iterator++);
 
           if (!rows || !rows.length) {
-            controller.close();
-
             messaging.postMessage(
               JSON.stringify({
                 type: "progress",
@@ -37,7 +35,10 @@ class FsAccessExportStrategy implements ExportStrategy {
               }),
             );
 
+            await this.workerManager.triggerWorker({ id: iterator, type: "done" });
+
             messaging.close();
+            controller.close();
 
             return;
           }
