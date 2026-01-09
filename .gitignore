@@ -4,5 +4,5 @@ node_modules/
 
 *.sh
 
-/packages/react-url-query-params/dist
-/packages/export-csv/core/dist
+/packages/**/dist/
+

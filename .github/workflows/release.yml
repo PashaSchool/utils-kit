@@ -3,8 +3,22 @@ name: Publish npm package (Trusted Publisher)
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'react-url-query-params@*'
+      - 'react-csv-autopilot@*'
   workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package to publish'
+        required: true
+        type: choice
+        options:
+          - react-url-query-params
+          - react-csv-autopilot
+      npm_tag:
+        description: 'npm dist-tag (latest, beta, alpha, etc.)'
+        required: false
+        default: 'latest'
+        type: string
 
 env:
   HUSKY: 0
@@ -18,6 +32,20 @@ jobs:
       contents: read
       id-token: write
 
+    strategy:
+      matrix:
+        include:
+          - package: react-url-query-params
+            directory: packages/react-url-query-params
+          - package: react-csv-autopilot
+            directory: packages/react-csv-autopilot
+
+    # Only run for matching tag or manual workflow dispatch
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, format('refs/tags/{0}@', matrix.package))) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.package == matrix.package)
+
+    name: Publish ${{ matrix.package }}
 
     steps:
       - name: "Checkout"
@@ -35,32 +63,61 @@ jobs:
           npm install -g npm@latest
           npm -v
 
-      - name: "Install dependencies"
-        working-directory: packages/react-url-query-params
+      - name: "Install dependencies (monorepo root)"
         run: npm install
 
       - name: "Build library"
-        working-directory: packages/react-url-query-params
+        working-directory: ${{ matrix.directory }}
         run: npm run build
 
-      - name: "Check version matches tag"
-        working-directory: packages/react-url-query-params
+      - name: "Extract version from tag"
+        if: github.event_name == 'push'
+        id: tag_version
         run: |
-          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          TAG_VERSION=${GITHUB_REF#refs/tags/${{ matrix.package }}@}
+          echo "version=${TAG_VERSION}" >> $GITHUB_OUTPUT
+          echo "Extracted version: ${TAG_VERSION}"
+
+      - name: "Check version matches tag"
+        if: github.event_name == 'push'
+        working-directory: ${{ matrix.directory }}
+        run: |
+          TAG_VERSION=${{ steps.tag_version.outputs.version }}
           PKG_VERSION=$(node -p "require('./package.json').version")
 
-          echo "Tag version $TAG_VERSION"
-          echo "Package version $PKG_VERSION"
+          echo "Tag version: $TAG_VERSION"
+          echo "Package version: $PKG_VERSION"
 
-          if ["$TAG_VERSION" != "$PKG_VERSION"]; then
-            echo "Version in package.json does not match to tag version"
-            exist 1
-
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Version in package.json ($PKG_VERSION) does not match tag version ($TAG_VERSION)"
+            exit 1
           fi
+          
+          echo "Version matches!"
+
+      - name: "Determine npm tag"
+        id: npm_tag
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            NPM_TAG="${{ github.event.inputs.npm_tag }}"
+          else
+            VERSION="${{ steps.tag_version.outputs.version }}"
+            if [[ "$VERSION" == *"-beta"* ]]; then
+              NPM_TAG="beta"
+            elif [[ "$VERSION" == *"-alpha"* ]]; then
+              NPM_TAG="alpha"
+            elif [[ "$VERSION" == *"-rc"* ]]; then
+              NPM_TAG="rc"
+            else
+              NPM_TAG="latest"
+            fi
+          fi
+          echo "tag=${NPM_TAG}" >> $GITHUB_OUTPUT
+          echo "📦 Publishing with npm tag: ${NPM_TAG}"
 
       - name: "Publish to npm (Trusted Publishing)"
-        working-directory: packages/react-url-query-params
-        run: npm publish --access public
+        working-directory: ${{ matrix.directory }}
+        run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
 
 
 

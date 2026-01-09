@@ -1,0 +1,43 @@
+sequenceDiagram
+        participant UI as Web app
+        participant Exporter as FsAccessExportStrategy(params)
+        participant FS as File system access API
+        participant Bus as BroadCastChannel(name)
+        participant Stream as ReadableStrem()
+        participant File as WritableStream
+        participant Worker as WorkerManager
+        participant Source as params.getNextPage(iterator++)
+        autonumber
+
+        UI->>Exporter: exportButton.click(params)
+        Exporter->>FS: showSaveFilePicker(suggestedName)
+        FS-->>Exporter: FileHandler
+        Exporter->>FS: FileHandler.createWritable()
+        FS-->>Exporter: WritableStream (File)
+        Exporter->>Bus: new BroadcastChannel(name)
+        Exporter->>Stream: new ReadableStream({pull})
+        Exporter->>Stream: create pipeTo (creates stream)
+
+        loop controlled stream by backpresure
+            File-->>Stream: reading from stream
+            Stream->>Exporter: controller
+            Exporter-->>Source: getNextPage(iterator++) | returns rows
+            Source-->>Stream: get batch
+
+            alt rows empty
+                Exporter->>Stream: stream.close()
+                Bus->>Worker: postMessage({ type:"progress", state:"success" })
+                Bus->>Exporter: bus.close()
+            else rows has data
+                Exporter->>Worker: triggerWorker({type: "progress"})
+                Worker-->>Exporter: mapped chunked csv
+                Bus-->>UI: postMessage({status: "pending"})
+                Exporter->>Stream: controller.enqueue(encode(response))
+            end
+
+            alt popTo finished
+                File-->>Exporter: closed
+                Exporter->>Worker: worker.terminate()
+                Exporter-->>UI: {finished: true}
+            end
+        end

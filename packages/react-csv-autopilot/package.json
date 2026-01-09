@@ -1,0 +1,64 @@
+{
+  "name": "react-csv-autopilot",
+  "version": "0.0.1-beta.0",
+  "description": "React hooks for CSV export with automatic pagination - drop the function, we handle the rest",
+  "author": "Pavlo Kuzina",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19"
+  },
+  "devDependencies": {
+    "@types/react": "^18",
+    "@types/wicg-file-system-access": "^2023.10.7",
+    "react": "^19.2.3",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PashaSchool/utils-kit.git",
+    "directory": "packages/react-csv-autopilot"
+  },
+  "bugs": {
+    "url": "https://github.com/PashaSchool/utils-kit/issues"
+  },
+  "homepage": "https://github.com/PashaSchool/utils-kit/blob/main/packages/react-csv-autopilot/README.md",
+  "keywords": [
+    "react",
+    "csv",
+    "export",
+    "hooks",
+    "autopilot",
+    "pagination",
+    "streaming",
+    "typescript",
+    "download",
+    "file-export",
+    "web-workers",
+    "progress-tracking",
+    "file-system-access",
+    "large-datasets",
+    "data-export"
+  ]
+}

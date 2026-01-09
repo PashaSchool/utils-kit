@@ -27,25 +27,48 @@ Built for `react-router-dom` (v6+) with type-safe keys, option validation, and h
 - Type-safe query parameter keys and values
 - Auto-generated helpers: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
 - Toggle mode for 2-option parameters
-- Bulk parameter management with `useBulkUrlParams`
+- Batch parameter management with `useBatchUrlParams`
 - Zero dependencies (except React & react-router-dom)
 
 **[Read Full Documentation →](./packages/react-url-query-params/README.md)**
 
 ---
-## License
+
+### [react-csv-autopilot](./packages/react-csv-autopilot)
+
+[![npm version](https://img.shields.io/npm/v/react-csv-autopilot?color=blue&logo=npm)](https://www.npmjs.com/package/react-csv-autopilot)
+[![npm downloads](https://img.shields.io/npm/dw/react-csv-autopilot?logo=npm)](https://www.npmjs.com/package/react-csv-autopilot)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/react-csv-autopilot?color=green&logo=webpack)](https://bundlephobia.com/package/react-csv-autopilot)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue?logo=typescript)](https://www.typescriptlang.org/)
+
+**React hooks for CSV export with automatic pagination - drop the function, we handle the rest.**
+
+Export large datasets to CSV with streaming, automatic pagination, and real-time progress tracking. Built with Web Workers for non-blocking performance.
+
+**Features:**
+- Automatic pagination - just provide a `getNextPage` function
+- Streaming export for memory-efficient large files
+- Non-blocking with Web Workers
+- Real-time progress tracking
+- Full TypeScript support
+- Zero dependencies (except React)
+
+**[Read Full Documentation →](./packages/react-csv-autopilot/README.md)**
+
+---
+## 📄 License
 
 MIT © [Pavlo Kuzina](LICENSE)
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## Links
+## 🔗 Links
 
 - **Repository**: [GitHub](https://github.com/PashaSchool/utils-kit)
 - **Issues**: [GitHub Issues](https://github.com/PashaSchool/utils-kit/issues)
