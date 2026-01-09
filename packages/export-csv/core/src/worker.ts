@@ -1,29 +1,84 @@
-import type { WorkerMessage, WorkerResponse } from "./types";
 import { objectsToCSV } from "./utils";
 
-let headersWritten = false;
+export type JobId = string & { readonly __brand: unique symbol };
 
-self.onmessage = (event: MessageEvent<WorkerMessage>) => {
-  const { id, type, columns, data } = event.data;
+type ToCSVChunkMessage = {
+  id: JobId;
+  type: "to_csv_chunk";
+  columns: ReadonlyArray<{ key: string; label: string }>;
+  data: ReadonlyArray<Record<string, unknown>>;
+};
+
+type ToCompleteMessage = {
+  id: JobId;
+  type: "completed";
+};
+
+type ToWorkerMessage = ToCSVChunkMessage | ToCompleteMessage;
+
+type FromWorkerChunkMessage = {
+  id: JobId;
+  result: string;
+  type: "csv_chunk";
+};
+
+type FromWorkerDoneMessage = {
+  id: JobId;
+  type: "done";
+};
+
+type ErrorPayload = {
+  name: string;
+  message: string;
+  stuck: string;
+};
+type FromWorkerFailureMessage = {
+  id: JobId;
+  type: "error";
+  error: ErrorPayload;
+};
+
+type FromWorkerMessage = FromWorkerDoneMessage | FromWorkerFailureMessage | FromWorkerChunkMessage;
+
+const headersWritten = new Map<JobId, boolean>();
+
+self.onmessage = (event: MessageEvent<ToWorkerMessage>) => {
+  const msg = event.data;
 
   try {
-    if (type === "process") {
-      const csvChunk = objectsToCSV(data, columns, !headersWritten);
+    switch (msg.type) {
+      case "to_csv_chunk": {
+        const { columns, data, id } = msg;
+        const csvChunk = objectsToCSV(data, columns, !headersWritten);
+        const out: FromWorkerMessage = {
+          id,
+          result: csvChunk,
+          type: "csv_chunk",
+        };
 
-      headersWritten = true;
+        self.postMessage(out);
 
-      self.postMessage({ id, result: csvChunk, type: "csvChunk" } as WorkerResponse);
-    } else if (type === "complete") {
-      headersWritten = false;
-      self.postMessage({ type: "done" });
+        break;
+      }
+
+      case "completed": {
+        const out: FromWorkerMessage = { id: msg.id, type: "done" };
+        self.postMessage(out);
+
+        break;
+      }
+      default: {
+        console.warn(`Unsupported for worker message:: ${JSON.stringify(msg)}`);
+        break;
+      }
     }
   } catch (error) {
     const _error = error instanceof Error ? error : new Error(String(error));
 
     self.postMessage({
-      id,
+      id: msg.id,
       error: _error,
       type: "error",
-    } as WorkerResponse);
+    });
   }
 };

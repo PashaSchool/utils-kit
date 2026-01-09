@@ -33,7 +33,7 @@ class WorkerManager {
     this.#worker!.addEventListener("message", (event) => {
       const { id, result, error } = event.data;
       const entity = pending.get(id);
-
+      console.log("##listenerRegistry::event::message", { event });
       if (!entity) {
         return;
       }
@@ -45,8 +45,6 @@ class WorkerManager {
       } else {
         entity.resolve(result);
       }
-
-      console.log("#listenerRegistry", { event });
     });
 
     this.#worker!.addEventListener("error", (event) => {

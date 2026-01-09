@@ -11,17 +11,17 @@ export class ExportController {
   constructor(private readonly deps: ExportControllerDeps) {}
 
   public async start(params: ExportParams): Promise<any> {
-    const strategy = this._resolveStrategy();
+    const strategy = this.#resolveStrategy();
 
     return strategy.export(params);
   }
 
-  private _canUseFSAccess() {
+  #canUseFSAccess() {
     return typeof window.showSaveFilePicker === "function";
   }
 
-  private _resolveStrategy(): ExportStrategy {
-    if (this._canUseFSAccess()) {
+  #resolveStrategy(): ExportStrategy {
+    if (this.#canUseFSAccess()) {
       return this.deps.fsAccessStrategy;
     }
 
