@@ -60,7 +60,7 @@ function useBulkUrlParams<const T extends Record<string, readonly string[]>>(
     (paramsConfig: ParamsConfig = { replace: false }) => {
       const params = new URLSearchParams(searchParams.toString());
 
-      Object.entries(config).forEach(([key, options]) => {
+      Object.entries(config).forEach(([key, _options]) => {
         if (params.has(key)) {
           params.delete(key);
         }
@@ -68,7 +68,7 @@ function useBulkUrlParams<const T extends Record<string, readonly string[]>>(
 
       setSearchParams([...params], paramsConfig);
     },
-    [searchParams, config.keyName, setSearchParams],
+    [searchParams, config.keyName, setSearchParams, config],
   );
 
   return {

@@ -1,7 +1,7 @@
 # useUrlParams
 
-[![npm version](https://img.shields.io/npm/v/use-url-params?color=blue)](https://www.npmjs.com/package/use-url-params)
-[![npm downloads](https://img.shields.io/npm/dw/use-url-params)](https://www.npmjs.com/package/use-url-params)
+[![npm version](https://img.shields.io/npm/v/react-url-query-params?color=blue)](https://www.npmjs.com/package/react-url-query-params)
+[![npm downloads](https://img.shields.io/npm/dw/react-url-query-params)](https://www.npmjs.com/package/react-url-query-params)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
 [![CI](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml/badge.svg)](https://github.com/PashaSchool/utils-kit/actions/workflows/CI.yml)
 
@@ -16,17 +16,17 @@ The library provides two hooks:
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔒 **Type-safe** query parameter keys and values
-- ⚡ **Auto-generated helpers**: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
-- 🔄 **Toggle mode** for 2-option parameters
-- ✅ Works seamlessly with `react-router-dom`’s `useSearchParams`
-- 🪶 Zero dependencies (except React & react-router-dom)
+- **Type-safe** query parameter keys and values
+- **Auto-generated helpers**: `set<Key>`, `toggle<Key>`, `is<Key><Option>`, `clear<Key>`
+- **Toggle mode** for 2-option parameters
+- Works seamlessly with `react-router-dom`’s `useSearchParams`
+- Zero dependencies (except React & react-router-dom)
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install react-url-query-params
@@ -35,7 +35,7 @@ or
 ```bash
 yarn add react-url-query-params
 ```
-## 🚀 Usage
+## Usage
 
 ![Demo of react-url-query-params](./docs/demo.gif)
 
@@ -104,7 +104,7 @@ export default function MyComponent() {
 
 ---
 
-## 📚 API Reference
+## API Reference
 
 ### `useUrlParams(config)`
 
@@ -178,12 +178,12 @@ A record object where:
 
 ```tsx
 // Basic usage
-const { set, isViewGrid, isViewTable } = useBulkUrlParams({
+const { set, isViewGrid, isViewTable, clearParams } = useBulkUrlParams({
   view: ['grid', 'table'],
 });
 
 // Multiple parameters
-const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed } = useBulkUrlParams({
+const { set, isViewGrid, isViewTable, isModalOpened, isModalClosed, clearParams } = useBulkUrlParams({
   view: ['grid', 'table'],
   modal: ['opened', 'closed'],
 });
@@ -209,7 +209,7 @@ if (isViewGrid && isModalOpened) {
 import { useBulkUrlParams } from 'react-url-query-params';
 
 function FilterableTable() {
-  const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive } = useBulkUrlParams({
+  const { set, isSortAsc, isSortDesc, isFilterActive, isFilterInactive, clearParams } = useBulkUrlParams({
     sort: ['asc', 'desc'],
     filter: ['active', 'inactive'],
   });
@@ -238,6 +238,11 @@ function FilterableTable() {
       <button onClick={() => set({ sort: 'asc' }, { replace: true })}>
         Sort Asc (No History)
       </button>
+      
+      
+      <button onClick={() => clearParams()}>
+        Clear all
+      </button>
     </div>
   );
 }
@@ -245,6 +250,7 @@ function FilterableTable() {
 
 **Notes:**
 - Use `as const` for the options arrays to get the best TypeScript inference
+- The `clearParams` function will clear all params declared in hook
 - The `set` function accepts an optional second parameter `{ replace: boolean }` to control browser history:
   - `replace: false` (default) - Adds a new entry to browser history (users can use back button)
   - `replace: true` - Replaces the current history entry (prevents back button navigation to previous state)
