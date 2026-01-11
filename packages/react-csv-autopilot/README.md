@@ -56,7 +56,7 @@ function ExportButton() {
   });
 
   const handleExport = async () => {
-    await handler.execute({
+    await handler.start({
       fileName: 'users-export',
       columns: [
         { key: 'id', label: 'ID' },
@@ -99,7 +99,7 @@ Hook that provides access to the CSV export controller.
 ```typescript
 const { handler } = useExportCSV();
 
-await handler.execute({
+await handler.start({
   fileName: 'data-export',
   columns: [...],
   getNextPage: async (offset) => {...}
