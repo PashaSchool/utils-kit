@@ -20,7 +20,7 @@ function useMessageExportCSV(cb: (payload: Payload) => void) {
     return () => {
       channel.close();
     };
-  }, []);
+  }, [cb]);
 }
 
 export default useMessageExportCSV;

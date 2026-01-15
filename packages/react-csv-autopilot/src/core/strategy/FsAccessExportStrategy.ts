@@ -33,7 +33,8 @@ class FsAccessExportStrategy implements ExportStrategy {
           const safeTotal = response.total ?? 0;
 
           const isRowsEmpty = !safeRows || !safeRows.length;
-          totalRowsLoaded = isRowsEmpty ? safeTotal : (totalRowsLoaded += safeRows.length);
+          const nextRowsLoaded = (totalRowsLoaded += safeRows.length);
+          totalRowsLoaded = isRowsEmpty ? safeTotal : nextRowsLoaded;
           const isFinished = totalRowsLoaded >= safeTotal;
 
           if (isRowsEmpty) {
@@ -112,9 +113,6 @@ class FsAccessExportStrategy implements ExportStrategy {
     return {
       finished: true,
       totalRowsLoaded,
-      logs: {
-        warnings: [],
-      },
     };
   }
 }

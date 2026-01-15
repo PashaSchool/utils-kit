@@ -27,11 +27,11 @@ export function objectsToCSV(
     );
   });
 
-  return rows.join("\n") + "\n";
+  return `${rows.join("\n")}\n`;
 }
 
 function getNested(obj: Record<string, any>, keyPath: string) {
-  return keyPath.split(".").reduce((acc, key) => acc && acc[key], obj);
+  return keyPath.split(".").reduce((acc, key) => acc?.[key], obj);
 }
 
 function normalisedValue<T>(value: T): string | T {

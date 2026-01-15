@@ -30,7 +30,7 @@ class WorkerManager {
   }
 
   #listenerRegistry() {
-    this.#worker!.addEventListener("message", (event) => {
+    this.#worker?.addEventListener("message", (event) => {
       const { id, result, error } = event.data;
       const entity = pending.get(id);
 
@@ -47,7 +47,7 @@ class WorkerManager {
       }
     });
 
-    this.#worker!.addEventListener("error", (event) => {
+    this.#worker?.addEventListener("error", (event) => {
       for (const [, { reject }] of pending) {
         reject(event);
       }
@@ -63,7 +63,7 @@ class WorkerManager {
       pending.set(id, { resolve, reject });
     });
 
-    this.#worker!.postMessage(payload);
+    this.#worker?.postMessage(payload);
 
     return p;
   }

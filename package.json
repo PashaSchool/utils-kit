@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "npm run -w apps/playground dev",
     "check:write": "npx @biomejs/biome check --write ./packages/**",
+    "check": "npx @biomejs/biome check",
     "prepare": "husky || true"
   },
   "devDependencies": {

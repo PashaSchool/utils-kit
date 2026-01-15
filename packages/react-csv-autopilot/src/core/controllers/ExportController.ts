@@ -10,8 +10,8 @@ type ExportControllerDeps = {
 export class ExportController {
   constructor(private readonly deps: ExportControllerDeps) {}
 
-  public async start(params: ExportParams): Promise<any> {
-    const strategy = this.#resolveStrategy();
+  public async start<T>(params: ExportParams<T>): Promise<any> {
+    const strategy = this.#resolveStrategy<T>();
 
     return strategy.export(params);
   }
@@ -20,7 +20,7 @@ export class ExportController {
     return typeof window.showSaveFilePicker === "function";
   }
 
-  #resolveStrategy(): ExportStrategy {
+  #resolveStrategy<T>(): ExportStrategy<T> {
     if (this.#canUseFSAccess()) {
       return this.deps.fsAccessStrategy;
     }
