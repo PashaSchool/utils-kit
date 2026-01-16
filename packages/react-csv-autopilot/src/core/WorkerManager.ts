@@ -1,17 +1,23 @@
 import { WEB_WORKER_NAME } from "./contants";
 import type { JobId, ToWorkerMessage } from "./types";
+import { workerCode } from "./workerCode";
 
 const pending = new Map<JobId, { resolve: (value: unknown) => void; reject: (reason?: ErrorEvent) => void }>();
 
+function createWorkerBlobUrl(): string {
+  const blob = new Blob([workerCode], { type: "application/javascript" });
+  return URL.createObjectURL(blob);
+}
+
 class WorkerManager {
   #worker: Worker | null;
+  #blobUrl: string | null;
 
   constructor() {
-    const workerUrl = new URL("./worker.js", import.meta.url);
+    this.#blobUrl = createWorkerBlobUrl();
 
-    this.#worker = new Worker(workerUrl, {
+    this.#worker = new Worker(this.#blobUrl, {
       name: WEB_WORKER_NAME,
-      type: "module",
     });
 
     this.#listenerRegistry();
@@ -64,6 +70,11 @@ class WorkerManager {
     if (this.#worker) {
       this.#worker.terminate();
       this.#worker = null;
+    }
+
+    if (this.#blobUrl) {
+      URL.revokeObjectURL(this.#blobUrl);
+      this.#blobUrl = null;
     }
   }
 }

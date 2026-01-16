@@ -5,7 +5,6 @@ const headersWritten = new Map<JobId, boolean>();
 
 self.onmessage = (event: MessageEvent<ToWorkerMessage>) => {
   const msg = event.data;
-
   try {
     switch (msg.type) {
       case "to_csv_chunk": {
