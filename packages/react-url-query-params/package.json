@@ -1,37 +1,9 @@
 {
-  "name": "react-url-query-params",
-  "version": "0.4.9",
-  "description": "React hooks for managing and updating URL query parameters with batch updates and type safety.",
   "author": "Pavlo Kuzina",
-  "license": "MIT",
-  "type": "module",
-  "sideEffects": false,
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "reqnpm run -w packages/react-url-query-params builduire": "./dist/index.cjs"
-    }
+  "bugs": {
+    "url": "https://github.com/PashaSchool/utils-kit/tree/main/packages/react-url-query-params/issues"
   },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "test": "vitest",
-    "test:watch": "vitest -w",
-    "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
-  },
-  "peerDependencies": {
-    "react": "^18 || ^19",
-    "react-dom": "^18 || ^19",
-    "react-router-dom": "^6.4 || ^7"
-  },
+  "description": "React hooks for managing and updating URL query parameters with batch updates and type safety.",
   "devDependencies": {
     "@remix-run/router": "^1.23.1",
     "@testing-library/dom": "^10.4.1",
@@ -49,14 +21,17 @@
     "typescript": "^5.0.0",
     "vitest": "^4.0.16"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PashaSchool/utils-kit.git",
-    "directory": "packages/react-url-query-params"
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "reqnpm run -w packages/react-url-query-params builduire": "./dist/index.cjs"
+    }
   },
-  "bugs": {
-    "url": "https://github.com/PashaSchool/utils-kit/tree/main/packages/react-url-query-params/issues"
-  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "homepage": "https://github.com/PashaSchool/utils-kit/blob/main/packages/react-url-query-params/README.md",
   "keywords": [
     "react",
@@ -66,5 +41,30 @@
     "params",
     "typescript",
     "react-router-dom"
-  ]
+  ],
+  "license": "MIT",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "name": "react-url-query-params",
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19",
+    "react-router-dom": "^6.4 || ^7"
+  },
+  "repository": {
+    "directory": "packages/react-url-query-params",
+    "type": "git",
+    "url": "git+https://github.com/PashaSchool/utils-kit.git"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:run": "vitest run",
+    "test:watch": "vitest -w"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "version": "0.4.9"
 }

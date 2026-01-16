@@ -1,8 +1,8 @@
-import type { ExportParams, ExportStrategy } from "../types";
+import type { ExportParams, ExportResponse, ExportStrategy } from "../types";
 
 class BolbExportStrategy implements ExportStrategy {
-  export(_params: ExportParams): Promise<any> {
-    return Promise.resolve({});
+  export<T>(_params: ExportParams<T>): Promise<ExportResponse> {
+    return Promise.resolve({ finished: true, totalRowsLoaded: 10 });
   }
 }
 

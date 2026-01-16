@@ -1,6 +1,7 @@
 import type { ExportController } from "./controllers/ExportController";
-import { ExportControlFabric } from "./fabric/ExportControlFabric";
+import createExportController from "./createExportController";
 
+// biome-ignore lint/complexity/noStaticOnlyClass: Note(Pavlo) Prefer to keep as class
 class ExportControllerSingleton {
   static instance: ExportController | null = null;
   static initialized: boolean = false;
@@ -10,7 +11,7 @@ class ExportControllerSingleton {
       return ExportControllerSingleton.instance;
     }
 
-    ExportControllerSingleton.instance = ExportControlFabric.create();
+    ExportControllerSingleton.instance = createExportController();
     ExportControllerSingleton.initialized = true;
 
     return ExportControllerSingleton.instance;

@@ -20,13 +20,13 @@ export type ExportParams<T> = {
   getNextPage: (offset: number) => Promise<{ rows: T[]; total: number }>;
 };
 
-type ExportResponse = {
+export type ExportResponse = {
   finished: boolean;
   totalRowsLoaded: number;
 };
 
-export interface ExportStrategy<T> {
-  export(params: ExportParams<T>): Promise<ExportResponse>;
+export interface ExportStrategy {
+  export<T>(params: ExportParams<T>): Promise<ExportResponse>;
 }
 
 export type JobId = number & { __brand: "JobId" };
@@ -67,7 +67,4 @@ type FromWorkerFailureMessage = {
   error: ErrorPayload;
 };
 
-export type FromWorkerMessage =
-  | FromWorkerDoneMessage
-  | FromWorkerFailureMessage
-  | FromWorkerChunkMessage;
+export type FromWorkerMessage = FromWorkerDoneMessage | FromWorkerFailureMessage | FromWorkerChunkMessage;

@@ -5,7 +5,7 @@ function useExportCSV() {
   const exportCallbackRef = useRef<ExportController>(ExportControllerSingleton.init());
 
   return {
-    handler: exportCallbackRef.current!,
+    handler: exportCallbackRef?.current,
   };
 }
 

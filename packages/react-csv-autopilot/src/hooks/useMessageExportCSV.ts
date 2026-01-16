@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { BROADCAST_CHANNEL_NAME } from "../core/contants";
 
-type Payload = { total: number; loadedItemsCount: number; state: "progress" | "failed" | "done" };
+type Payload = {
+  total: number;
+  loadedItemsCount: number;
+  state: "progress" | "failed" | "done";
+};
 
 function useMessageExportCSV(cb: (payload: Payload) => void) {
   useEffect(() => {

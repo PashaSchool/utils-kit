@@ -12,8 +12,8 @@ describe("useBulkUrlParams", () => {
     const { result } = renderHook(
       () =>
         useBulkUrlParams({
-          sort: ["asc", "desc"],
           filter: ["active", "inactive"],
+          sort: ["asc", "desc"],
         }),
       { wrapper },
     );
@@ -29,8 +29,8 @@ describe("useBulkUrlParams", () => {
     const { result } = renderHook(
       () =>
         useBulkUrlParams({
-          sort: ["asc", "desc"],
           filter: ["active", "inactive"],
+          sort: ["asc", "desc"],
         }),
       { wrapper },
     );
@@ -38,7 +38,7 @@ describe("useBulkUrlParams", () => {
     expect(result.current.isFilterActive).toBe(false);
     expect(result.current.isSortAsc).toBe(false);
 
-    act(() => result.current.set({ sort: "asc", filter: "active" }));
+    act(() => result.current.set({ filter: "active", sort: "asc" }));
 
     expect(result.current.isFilterActive).toBe(true);
     expect(result.current.isSortAsc).toBe(true);
@@ -48,8 +48,8 @@ describe("useBulkUrlParams", () => {
     const { result } = renderHook(
       () =>
         useBulkUrlParams({
-          sort: ["asc", "desc"],
           filter: ["active", "inactive"],
+          sort: ["asc", "desc"],
         }),
       { wrapper },
     );
@@ -66,13 +66,13 @@ describe("useBulkUrlParams", () => {
     const { result } = renderHook(
       () =>
         useBulkUrlParams({
-          sort: ["asc", "desc"],
           filter: ["active", "inactive"],
+          sort: ["asc", "desc"],
         }),
       { wrapper },
     );
 
-    act(() => result.current.set({ sort: "desc", filter: "inactive" }));
+    act(() => result.current.set({ filter: "inactive", sort: "desc" }));
 
     expect(result.current.isSortDesc).toBe(true);
     expect(result.current.isFilterInactive).toBe(true);

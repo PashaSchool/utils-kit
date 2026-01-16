@@ -1,14 +1,14 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm", "cjs"],
-  dts: true,
   clean: true,
-  target: "es2020",
-  sourcemap: false,
-  external: ["react"],
+  dts: true,
+  entry: ["src/index.ts"],
   esbuildOptions(options) {
     options.platform = "browser";
   },
+  external: ["react"],
+  format: ["esm", "cjs"],
+  sourcemap: false,
+  target: "es2020",
 });

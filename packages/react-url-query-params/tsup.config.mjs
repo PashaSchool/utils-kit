@@ -1,10 +1,10 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
+  clean: true,
+  dts: true,
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
-  dts: true,
-  clean: true,
-  target: "es2020",
   sourcemap: false,
+  target: "es2020",
 });

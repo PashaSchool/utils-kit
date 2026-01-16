@@ -15,9 +15,7 @@ type QueryParamHookResult<T extends string, O extends string> = {
   [K in `clear${Capitalize<T>}`]: () => void;
 };
 
-function useUrlParams<T extends string, O extends string>(
-  config: QueryParamConfig<T, O>,
-): QueryParamHookResult<T, O> {
+function useUrlParams<T extends string, O extends string>(config: QueryParamConfig<T, O>): QueryParamHookResult<T, O> {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentValue = searchParams.get(config.keyName) as O | null;
@@ -77,8 +75,7 @@ function useUrlParams<T extends string, O extends string>(
         const capitalizedKeyName = upperFirst(config.keyName);
 
         return Object.assign(acc, {
-          [`is${capitalizedKeyName}${capitalizedOption}`]:
-            searchParams.get(config.keyName) === option,
+          [`is${capitalizedKeyName}${capitalizedOption}`]: searchParams.get(config.keyName) === option,
         });
       },
       {} as { [key: string]: boolean },

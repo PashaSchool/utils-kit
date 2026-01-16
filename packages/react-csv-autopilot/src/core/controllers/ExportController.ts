@@ -1,6 +1,6 @@
 import type BolbExportStrategy from "../strategy/BolbExportStrategy";
 import type FsAccessExportStrategy from "../strategy/FsAccessExportStrategy";
-import type { ExportParams, ExportStrategy } from "../types";
+import type { ExportParams, ExportResponse, ExportStrategy } from "../types";
 
 type ExportControllerDeps = {
   fsAccessStrategy: FsAccessExportStrategy;
@@ -10,8 +10,8 @@ type ExportControllerDeps = {
 export class ExportController {
   constructor(private readonly deps: ExportControllerDeps) {}
 
-  public async start<T>(params: ExportParams<T>): Promise<any> {
-    const strategy = this.#resolveStrategy<T>();
+  public async start<T>(params: ExportParams<T>): Promise<ExportResponse> {
+    const strategy = this.#resolveStrategy();
 
     return strategy.export(params);
   }
@@ -20,7 +20,7 @@ export class ExportController {
     return typeof window.showSaveFilePicker === "function";
   }
 
-  #resolveStrategy<T>(): ExportStrategy<T> {
+  #resolveStrategy(): ExportStrategy {
     if (this.#canUseFSAccess()) {
       return this.deps.fsAccessStrategy;
     }

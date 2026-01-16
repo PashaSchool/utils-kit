@@ -14,9 +14,7 @@ type BatchUrlReturnType<T extends Record<string, readonly string[]>> = {
   }[keyof T]]: boolean;
 };
 
-function useBulkUrlParams<const T extends Record<string, readonly string[]>>(
-  config: T,
-): BatchUrlReturnType<T> {
+function useBulkUrlParams<const T extends Record<string, readonly string[]>>(config: T): BatchUrlReturnType<T> {
   const [searchParams, setSearchParams] = useSearchParams();
 
   type Config = {
@@ -72,8 +70,8 @@ function useBulkUrlParams<const T extends Record<string, readonly string[]>>(
   );
 
   return {
-    set: setterFunction,
     clearParams,
+    set: setterFunction,
     ...capitalizedOptions,
   } as BatchUrlReturnType<T>;
 }

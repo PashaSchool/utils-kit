@@ -1,9 +1,7 @@
 import { WEB_WORKER_NAME } from "./contants";
+import type { JobId, ToWorkerMessage } from "./types";
 
-const pending = new Map<
-  string,
-  { resolve: (value: unknown) => void; reject: (reason?: any) => void }
->();
+const pending = new Map<JobId, { resolve: (value: unknown) => void; reject: (reason?: ErrorEvent) => void }>();
 
 class WorkerManager {
   #worker: Worker | null;
@@ -18,8 +16,8 @@ class WorkerManager {
     }
 
     this.#worker = new Worker(workerUrl, {
-      type: "module",
       name: WEB_WORKER_NAME,
+      type: "module",
     });
 
     this.#listenerRegistry();
@@ -56,11 +54,11 @@ class WorkerManager {
     });
   }
 
-  async triggerWorker(payload: any) {
+  async triggerWorker(payload: ToWorkerMessage) {
     const id = payload.id ?? Math.random().toString(36).substr(2);
 
     const p = new Promise((resolve, reject) => {
-      pending.set(id, { resolve, reject });
+      pending.set(id, { reject, resolve });
     });
 
     this.#worker?.postMessage(payload);

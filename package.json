@@ -1,19 +1,25 @@
 {
-  "private": true,
+  "devDependencies": {
+    "@biomejs/biome": "2.3.11",
+    "@types/wicg-file-system-access": "^2023.10.7",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "biome check --write"
+    ]
+  },
   "name": "utils-kit",
+  "private": true,
+  "scripts": {
+    "check": "npx @biomejs/biome check",
+    "check:write": "npx @biomejs/biome check --write ./packages/**",
+    "dev": "npm run -w apps/playground dev",
+    "prepare": "husky || true"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"
-  ],
-  "scripts": {
-    "dev": "npm run -w apps/playground dev",
-    "check:write": "npx @biomejs/biome check --write ./packages/**",
-    "check": "npx @biomejs/biome check",
-    "prepare": "husky || true"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.8",
-    "@types/wicg-file-system-access": "^2023.10.7",
-    "husky": "^9.1.7"
-  }
+  ]
 }

@@ -40,8 +40,8 @@ self.onmessage = (event: MessageEvent<ToWorkerMessage>) => {
     const _error = error instanceof Error ? error : new Error(String(error));
 
     self.postMessage({
-      id: msg.id,
       error: _error,
+      id: msg.id,
       type: "error",
     });
   }

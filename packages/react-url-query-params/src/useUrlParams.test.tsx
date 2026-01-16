@@ -8,10 +8,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 
 describe("useUrlParams", () => {
   it("initiate with all provided params following correct interface", () => {
-    const { result } = renderHook(
-      () => useUrlParams({ keyName: "view", options: ["grid", "table"] }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useUrlParams({ keyName: "view", options: ["grid", "table"] }), { wrapper });
     expect(result.current.view).toBe("grid");
     expect(result.current.isViewGrid).toBe(true);
     expect(result.current.isViewTable).toBe(false);
@@ -21,20 +18,14 @@ describe("useUrlParams", () => {
   });
 
   it("reads current value and produced field is<Key><Option>", () => {
-    const { result } = renderHook(
-      () => useUrlParams({ keyName: "view", options: ["grid", "table"] }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useUrlParams({ keyName: "view", options: ["grid", "table"] }), { wrapper });
     expect(result.current.view).toBe("grid");
     expect(result.current.isViewGrid).toBe(true);
     expect(result.current.isViewTable).toBe(false);
   });
 
   it("should clear clear params ", () => {
-    const { result } = renderHook(
-      () => useUrlParams({ keyName: "view", options: ["grid", "table"] }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useUrlParams({ keyName: "view", options: ["grid", "table"] }), { wrapper });
 
     expect(result.current.view).toBe("grid");
     act(() => result.current.clearView());
@@ -42,20 +33,14 @@ describe("useUrlParams", () => {
   });
 
   it("set<Key> updates value", () => {
-    const { result } = renderHook(
-      () => useUrlParams({ keyName: "view", options: ["grid", "table"] }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useUrlParams({ keyName: "view", options: ["grid", "table"] }), { wrapper });
     act(() => result.current.setView("table"));
     expect(result.current.view).toBe("table");
     expect(result.current.isViewTable).toBe(true);
   });
 
   it("toggle<Key> toggle value btw two options", () => {
-    const { result } = renderHook(
-      () => useUrlParams({ keyName: "view", options: ["grid", "table"] }),
-      { wrapper },
-    );
+    const { result } = renderHook(() => useUrlParams({ keyName: "view", options: ["grid", "table"] }), { wrapper });
 
     act(() => result.current.toggleView());
     expect(result.current.view).toBe("table");
@@ -67,7 +52,11 @@ describe("useUrlParams", () => {
 
   it("toggle<Key> not possible for more than two options", () => {
     const { result } = renderHook(
-      () => useUrlParams({ keyName: "view", options: ["grid", "table", "dashboard"] }),
+      () =>
+        useUrlParams({
+          keyName: "view",
+          options: ["grid", "table", "dashboard"],
+        }),
       { wrapper },
     );
     expect(result.current.view).toBe("grid");
