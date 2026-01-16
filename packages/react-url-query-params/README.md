@@ -258,3 +258,35 @@ function FilterableTable() {
 - All parameter names and values are type-safe based on your config
 
 ---
+
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 📄 License
+
+MIT © [Pavlo Kuzina](../../LICENSE)
+
+
+## 🔗 Links
+
+- **npm Package**: [react-csv-autopilot](https://www.npmjs.com/package/react-csv-autopilot)
+- **Repository**: [GitHub - utils-kit](https://github.com/PashaSchool/utils-kit)
+- **Issues**: [GitHub Issues](https://github.com/PashaSchool/utils-kit/issues)
+- **Monorepo**: Part of [utils-kit](../../README.md) collection
+
+---
+
+## Related Packages
+
+- [**react-csv-autopilot**](../react-csv-autopilot) - A React library for exporting large datasets to CSV with automatic pagination, streaming, and progress tracking. Built with Web Workers for non-blocking performance and File System Access API for efficient file writing
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/PashaSchool">Pavlo Kuzina</a></sub>
+</div>
+
