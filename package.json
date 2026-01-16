@@ -8,14 +8,14 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "biome check --write",
+      "check:write",
       "prebuild"
     ]
   },
   "name": "utils-kit",
   "private": true,
   "scripts": {
-    "check": "npx @biomejs/biome check",
+    "check": "npx @biomejs/biome check ./packages/**",
     "check:write": "npx @biomejs/biome check --write ./packages/**",
     "dev": "npm run -w apps/playground dev",
     "typecheck:react-csv-autopilot": "tsc -p packages/react-csv-autopilot/tsconfig.json --noEmit",
