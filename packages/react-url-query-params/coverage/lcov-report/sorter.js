@@ -8,31 +8,31 @@ var addSorting = (() => {
 
   // returns the summary table element
   function getTable() {
-    return document.querySelector(".coverage-summary");
+    return document.querySelector('.coverage-summary');
   }
   // returns the thead element of the summary table
   function getTableHeader() {
-    return getTable().querySelector("thead tr");
+    return getTable().querySelector('thead tr');
   }
   // returns the tbody element of the summary table
   function getTableBody() {
-    return getTable().querySelector("tbody");
+    return getTable().querySelector('tbody');
   }
   // returns the th element for nth column
   function getNthColumn(n) {
-    return getTableHeader().querySelectorAll("th")[n];
+    return getTableHeader().querySelectorAll('th')[n];
   }
 
   function onFilterInput() {
-    const searchValue = document.getElementById("fileSearch").value;
-    const rows = document.getElementsByTagName("tbody")[0].children;
+    const searchValue = document.getElementById('fileSearch').value;
+    const rows = document.getElementsByTagName('tbody')[0].children;
 
     // Try to create a RegExp from the searchValue. If it fails (invalid regex),
     // it will be treated as a plain text search
     let searchRegex;
     try {
-      searchRegex = new RegExp(searchValue, "i"); // 'i' for case-insensitive
-    } catch (error) {
+      searchRegex = new RegExp(searchValue, 'i'); // 'i' for case-insensitive
+    } catch (_error) {
       searchRegex = null;
     }
 
@@ -48,21 +48,21 @@ var addSorting = (() => {
         isMatch = row.textContent.toLowerCase().includes(searchValue.toLowerCase());
       }
 
-      row.style.display = isMatch ? "" : "none";
+      row.style.display = isMatch ? '' : 'none';
     }
   }
 
   // loads the search box
   function addSearchBox() {
-    var template = document.getElementById("filterTemplate");
+    var template = document.getElementById('filterTemplate');
     var templateClone = template.content.cloneNode(true);
-    templateClone.getElementById("fileSearch").oninput = onFilterInput;
+    templateClone.getElementById('fileSearch').oninput = onFilterInput;
     template.parentElement.appendChild(templateClone);
   }
 
   // loads all columns
   function loadColumns() {
-    var colNodes = getTableHeader().querySelectorAll("th"),
+    var colNodes = getTableHeader().querySelectorAll('th'),
       colNode,
       cols = [],
       col,
@@ -71,14 +71,14 @@ var addSorting = (() => {
     for (i = 0; i < colNodes.length; i += 1) {
       colNode = colNodes[i];
       col = {
-        key: colNode.getAttribute("data-col"),
-        sortable: !colNode.getAttribute("data-nosort"),
-        type: colNode.getAttribute("data-type") || "string",
+        key: colNode.getAttribute('data-col'),
+        sortable: !colNode.getAttribute('data-nosort'),
+        type: colNode.getAttribute('data-type') || 'string',
       };
       cols.push(col);
       if (col.sortable) {
-        col.defaultDescSort = col.type === "number";
-        colNode.innerHTML = colNode.innerHTML + '<span class="sorter"></span>';
+        col.defaultDescSort = col.type === 'number';
+        colNode.innerHTML = `${colNode.innerHTML}<span class="sorter"></span>`;
       }
     }
     return cols;
@@ -86,7 +86,7 @@ var addSorting = (() => {
   // attaches a data attribute to every tr element with an object
   // of data values keyed by column name
   function loadRowData(tableRow) {
-    var tableCols = tableRow.querySelectorAll("td"),
+    var tableCols = tableRow.querySelectorAll('td'),
       colNode,
       col,
       data = {},
@@ -95,8 +95,8 @@ var addSorting = (() => {
     for (i = 0; i < tableCols.length; i += 1) {
       colNode = tableCols[i];
       col = cols[i];
-      val = colNode.getAttribute("data-value");
-      if (col.type === "number") {
+      val = colNode.getAttribute('data-value');
+      if (col.type === 'number') {
         val = Number(val);
       }
       data[col.key] = val;
@@ -105,7 +105,7 @@ var addSorting = (() => {
   }
   // loads all row data
   function loadData() {
-    var rows = getTableBody().querySelectorAll("tr"),
+    var rows = getTableBody().querySelectorAll('tr'),
       i;
 
     for (i = 0; i < rows.length; i += 1) {
@@ -121,8 +121,8 @@ var addSorting = (() => {
         return a < b ? -1 : a > b ? 1 : 0;
       },
       finalSorter = sorter,
-      tableBody = document.querySelector(".coverage-summary tbody"),
-      rowNodes = tableBody.querySelectorAll("tr"),
+      tableBody = document.querySelector('.coverage-summary tbody'),
+      rowNodes = tableBody.querySelectorAll('tr'),
       rows = [],
       i;
 
@@ -146,12 +146,12 @@ var addSorting = (() => {
     var col = getNthColumn(currentSort.index),
       cls = col.className;
 
-    cls = cls.replace(/ sorted$/, "").replace(/ sorted-desc$/, "");
+    cls = cls.replace(/ sorted$/, '').replace(/ sorted-desc$/, '');
     col.className = cls;
   }
   // adds sort indicators for current column being sorted
   function addSortIndicators() {
-    getNthColumn(currentSort.index).className += currentSort.desc ? " sorted-desc" : " sorted";
+    getNthColumn(currentSort.index).className += currentSort.desc ? ' sorted-desc' : ' sorted';
   }
   // adds event listeners for all sorter widgets
   function enableUI() {
@@ -177,11 +177,11 @@ var addSorting = (() => {
       if (cols[i].sortable) {
         // add the click event handler on the th so users
         // dont have to click on those tiny arrows
-        el = getNthColumn(i).querySelector(".sorter").parentElement;
+        el = getNthColumn(i).querySelector('.sorter').parentElement;
         if (el.addEventListener) {
-          el.addEventListener("click", ithSorter(i));
+          el.addEventListener('click', ithSorter(i));
         } else {
-          el.attachEvent("onclick", ithSorter(i));
+          el.attachEvent('onclick', ithSorter(i));
         }
       }
     }
@@ -199,4 +199,4 @@ var addSorting = (() => {
   };
 })();
 
-window.addEventListener("load", addSorting);
+window.addEventListener('load', addSorting);

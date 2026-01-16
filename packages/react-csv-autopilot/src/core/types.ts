@@ -14,14 +14,19 @@ export type Column = {
   formatType?: formatterTypes;
 };
 
-export type ExportParams = {
+export type ExportParams<T> = {
   fileName: string;
   columns: Column[];
-  getNextPage: (offset: number) => Promise<{ rows: any[]; total: number }>;
+  getNextPage: (offset: number) => Promise<{ rows: T[]; total: number }>;
+};
+
+export type ExportResponse = {
+  finished: boolean;
+  totalRowsLoaded: number;
 };
 
 export interface ExportStrategy {
-  export(params: ExportParams): Promise<any>;
+  export<T>(params: ExportParams<T>): Promise<ExportResponse>;
 }
 
 export type JobId = number & { __brand: "JobId" };
@@ -62,7 +67,4 @@ type FromWorkerFailureMessage = {
   error: ErrorPayload;
 };
 
-export type FromWorkerMessage =
-  | FromWorkerDoneMessage
-  | FromWorkerFailureMessage
-  | FromWorkerChunkMessage;
+export type FromWorkerMessage = FromWorkerDoneMessage | FromWorkerFailureMessage | FromWorkerChunkMessage;
