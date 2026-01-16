@@ -1,0 +1,44 @@
+sequenceDiagram
+    participant UI as Web app
+    participant Exporter as BlobExportStrategy(params)
+    participant Bus as BroadCastChannel(name)
+    participant Worker as WorkerManager
+    participant Source as params.getNextPage(iterator++)
+    participant Mem as In-memory CSV parts (chunks[])
+    participant Blob as Blob(text/csv)
+    participant DL as <a download> (browser download)
+    autonumber
+
+    UI->>Exporter: exportButton.click(params)
+    Exporter->>Bus: new BroadcastChannel(name)
+    Exporter->>Worker: WorkerManager.initialise()
+    Exporter->>Mem: init chunks[] + counters + iterator
+
+    loop fetch pages until finished
+        Exporter->>Source: getNextPage(iterator++) | returns rows + total
+        Source-->>Exporter: { rows, total }
+
+        alt rows empty
+            Bus-->>UI: postMessage({status:"done", loadedItemsCount, total})
+            Exporter->>Worker: triggerWorker({ type:"completed" })
+            Exporter->>Bus: bus.close()
+            Exporter->>Worker: worker.terminate()
+        else rows has data
+            Exporter->>Worker: triggerWorker({type:"to_csv_chunk", columns, data: rows})
+            Worker-->>Exporter: csvChunk (string)
+            Exporter->>Mem: chunks.push(csvChunk)
+            Bus-->>UI: postMessage({status:"progress", loadedItemsCount, total})
+
+            alt reached total
+                Bus-->>UI: postMessage({status:"done", loadedItemsCount, total})
+                Exporter->>Worker: triggerWorker({ type:"completed" })
+                Exporter->>Bus: bus.close()
+                Exporter->>Worker: worker.terminate()
+            end
+        end
+    end
+
+    Exporter->>Blob: new Blob(["\\uFEFF", ...chunks], {type:"text/csv"})
+    Exporter->>DL: createObjectURL(blob) + a.download + click()
+    DL-->>UI: browser save/download dialog (legacy)
+    Exporter-->>UI: { finished: true, totalRowsLoaded }
