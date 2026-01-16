@@ -7,13 +7,7 @@ class WorkerManager {
   #worker: Worker | null;
 
   constructor() {
-    let workerUrl: URL | string;
-
-    try {
-      workerUrl = new URL("./worker.js", import.meta.url);
-    } catch {
-      workerUrl = "/worker.js";
-    }
+    const workerUrl = new URL("./worker.js", import.meta.url);
 
     this.#worker = new Worker(workerUrl, {
       name: WEB_WORKER_NAME,
