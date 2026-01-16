@@ -1,5 +1,5 @@
 import { BROADCAST_CHANNEL_NAME } from "../contants";
-import type { ExportParams, ExportResponse, ExportStrategy } from "../types";
+import {ExportParams, ExportResponse, ExportStrategy, JobId} from "../types";
 import WorkerManager from "../WorkerManager";
 
 class FsAccessExportStrategy implements ExportStrategy {
@@ -18,7 +18,7 @@ class FsAccessExportStrategy implements ExportStrategy {
     });
 
     const writableFileStream = await fileHandle.createWritable();
-    let iterator = 0;
+    let iterator: JobId = 0 as JobId;
     let totalRowsLoaded = 0;
 
     const encoder = new TextEncoder();
@@ -59,7 +59,7 @@ class FsAccessExportStrategy implements ExportStrategy {
 
           const csvChunks = await this.workerManager.triggerWorker({
             columns: params.columns,
-            data: safeRows,
+            data: safeRows as Record<string, unknown>[],
             id: iterator,
             type: "to_csv_chunk",
           });

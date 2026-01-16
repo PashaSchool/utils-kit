@@ -3,11 +3,13 @@
     "@biomejs/biome": "2.3.11",
     "@types/wicg-file-system-access": "^2023.10.7",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7"
+    "lint-staged": "^16.2.7",
+    "typescript": "^5.9.3"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "biome check --write"
+      "biome check --write",
+      "prebuild"
     ]
   },
   "name": "utils-kit",
@@ -16,6 +18,9 @@
     "check": "npx @biomejs/biome check",
     "check:write": "npx @biomejs/biome check --write ./packages/**",
     "dev": "npm run -w apps/playground dev",
+    "typecheck:react-csv-autopilot": "tsc -p packages/react-csv-autopilot/tsconfig.json --noEmit",
+    "typecheck:react-url-query-params": "tsc -p packages/react-url-query-params/tsconfig.json --noEmit",
+    "prebuild": "npm run typecheck:react-csv-autopilot && npm run typecheck:react-url-query-params",
     "prepare": "husky || true"
   },
   "workspaces": [
