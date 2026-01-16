@@ -31,11 +31,11 @@ export interface ExportStrategy {
 
 export type JobId = number & { __brand: "JobId" };
 
-export type ToCSVChunkMessage = {
+export type ToCSVChunkMessage<T = Record<string, unknown>> = {
   id: JobId;
   type: "to_csv_chunk";
   columns: Array<{ key: string; label: string }>;
-  data: Array<Record<string, unknown>>;
+  data: T[];
 };
 
 type ToCompleteMessage = {
@@ -43,7 +43,7 @@ type ToCompleteMessage = {
   type: "completed";
 };
 
-export type ToWorkerMessage = ToCSVChunkMessage | ToCompleteMessage;
+export type ToWorkerMessage<T = Record<string, unknown>> = ToCSVChunkMessage<T> | ToCompleteMessage;
 
 type FromWorkerChunkMessage = {
   id: JobId;
