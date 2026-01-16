@@ -1,5 +1,5 @@
 import { BROADCAST_CHANNEL_NAME } from "../contants";
-import {ExportParams, ExportResponse, ExportStrategy, JobId} from "../types";
+import type { ExportParams, ExportResponse, ExportStrategy, JobId } from "../types";
 import WorkerManager from "../WorkerManager";
 
 class FsAccessExportStrategy implements ExportStrategy {
