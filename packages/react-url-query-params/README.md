@@ -273,7 +273,7 @@ MIT © [Pavlo Kuzina](../../LICENSE)
 
 ## 🔗 Links
 
-- **npm Package**: [react-csv-autopilot](https://www.npmjs.com/package/react-csv-autopilot)
+- **npm Package**: [react-url-query-params](https://www.npmjs.com/package/react-url-query-params)
 - **Repository**: [GitHub - utils-kit](https://github.com/PashaSchool/utils-kit)
 - **Issues**: [GitHub Issues](https://github.com/PashaSchool/utils-kit/issues)
 - **Monorepo**: Part of [utils-kit](../../README.md) collection
