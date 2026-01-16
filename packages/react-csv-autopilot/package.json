@@ -13,9 +13,9 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -55,6 +55,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "build:watch": "npm run build --watch",
     "dev": "tsup --watch"
   },
   "sideEffects": false,

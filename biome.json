@@ -11,7 +11,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!!**/dist", "!!**/coverage", "!!**/playground"]
+    "includes": ["**", "!!**/dist", "!!**/coverage", "!!**/playground", "!!**/tsup.config.mjs", "!!**/package.json"]
   },
   "formatter": {
     "attributePosition": "multiline",

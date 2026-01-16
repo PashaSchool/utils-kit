@@ -1,14 +1,25 @@
 import { defineConfig } from "tsup";
 
-export default defineConfig({
-  clean: true,
-  dts: true,
-  entry: ["src/index.ts"],
-  esbuildOptions(options) {
-    options.platform = "browser";
+export default defineConfig([
+  {
+    entry: ["src/index.ts"],
+    format: ["esm", "cjs"],
+    sourcemap: true,
+    target: "es2020",
+    external: ["react"],
+    esbuildOptions(options) {
+      options.platform = "browser";
+    },
   },
-  external: ["react"],
-  format: ["esm", "cjs"],
-  sourcemap: false,
-  target: "es2020",
-});
+  {
+    entry: { worker: "src/core/worker.ts" },
+    format: ["esm"],
+    sourcemap: true,
+    target: "es2020",
+    outDir: "dist",
+    noExternal: [/.*/],
+    esbuildOptions(options) {
+      options.platform = "browser";
+    },
+  },
+]);
