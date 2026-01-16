@@ -4,7 +4,7 @@ export default defineConfig([
   {
     entry: ["src/index.ts"],
     format: ["esm", "cjs"],
-    sourcemap: false,
+    sourcemap: true,
     target: "es2020",
     external: ["react"],
     esbuildOptions(options) {
@@ -14,7 +14,7 @@ export default defineConfig([
   {
     entry: { worker: "src/core/worker.ts" },
     format: ["esm"],
-    sourcemap: false,
+    sourcemap: true,
     target: "es2020",
     outDir: "dist",
     noExternal: [/.*/],
